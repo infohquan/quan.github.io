@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<flash_parameters copyright="socusoftFSMTheme">
+    <preferences>
+        <global>
+            <basic_property movieWidth="530" movieHeight="225" html_title="" loadStyle="Bar" startAutoPlay="true" continuum="true" backgroundColor="0xffffff" socusoftMenu="false" hideAdobeMenu="false" photoDynamicShow="true" enableURL="true" transitionArray="" frameColor="0xa0a0a4"/>
+            <title_property showTitle="true" photoTitleColor="0x000080"/>
+            <music_property path="" stream="true" loop="true"/>
+            <photo_property topPadding="0" bottomPadding="1" leftPadding="0" rightPadding="0"/>
+            <properties enable="true" backgroundColor="0xffffff" backgroundAlpha="10" cssText="a:link{text-decoration: underline;} a:hover{color:#ff0000; text-decoration: none;} a:active{color:#0000ff;text-decoration: none;} .blue {color:#0000ff; font-size:15px; font-style:italic; text-decoration: underline;} .body{color:#ff5500;font-size:20px;}" align="top"/>
+        </global>
+        <thumbnail>
+            <basic_property autoHide="true" width="20" height="20" alpha="70" borderColor="0xffffff"/>
+        </thumbnail>
+    </preferences>
+    <album>
+        <slide jpegURL="thumbs/t_0001.jpg" d_URL="slides/p_0001.jpg" transition="56" panzoom="1" URLTarget="0" phototime="2" url="" title="3" width="530" height="300"/>
+        <slide jpegURL="thumbs/t_0002.jpg" d_URL="slides/p_0002.jpg" transition="16" panzoom="1" URLTarget="0" phototime="2" url="" title="4" width="530" height="300"/>
+        <slide jpegURL="thumbs/t_0003.jpg" d_URL="slides/p_0003.jpg" transition="14" panzoom="1" URLTarget="0" phototime="2" url="" title="5" width="530" height="300"/>
+        <slide jpegURL="thumbs/t_0004.jpg" d_URL="slides/p_0004.jpg" transition="55" panzoom="1" URLTarget="0" phototime="2" url="" title="6" width="530" height="300"/>
+           </album>
+</flash_parameters>

@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<KhaviCMS>
+	<!--Xml cho phần website bên ngoài-->
+	<Web>
+		<Header>
+			<MyAccount>My Account</MyAccount>
+			<MyOrderStatus>My Order Status</MyOrderStatus>
+			<Help>Help</Help>
+			<MyWishList>My WishList</MyWishList>
+			<MyCart>My Cart</MyCart>
+		</Header>
+		<MenuTop>
+			<Homepage>Homepage</Homepage>
+			<Product>Products</Product>
+			<Promotions>Promotions</Promotions>
+			<AboutUs>About Us</AboutUs>
+			<News>News</News>
+			<Contact>Contact Us</Contact>
+			<Service>Services</Service>
+			<Partner>Partners</Partner>
+			<Video>Video</Video>
+			<Sitemap>Sitemap</Sitemap>
+			<FAQ>FAQs</FAQ>
+			<Promotion>Promotions</Promotion>
+			<Agent>Agents</Agent>
+			<CustomerIdea>Customer ideas</CustomerIdea>
+			<Project>Projects</Project>
+			<Customer>Customers</Customer>
+			<Employment>Employment</Employment>
+      <WebDemo>Web Demo</WebDemo>
+		</MenuTop>
+		<DisplayProduct>
+			<Price>Price:</Price>
+			<Viewed>Total Views:</Viewed>
+			<Detail>Detail</Detail>
+			<AddToCart>Add To Cart</AddToCart>
+			<NewProduct>Top New Product</NewProduct>
+			<HotProduct>Top Hot Product</HotProduct>
+			<ViewedMost>Top Viewed Most</ViewedMost>
+			<SaleOff>Top Promotions</SaleOff>
+			<BestSeller>Top Best Seller</BestSeller>
+			<ProductCatalog>Product's Catalog</ProductCatalog>
+			<TopProducer>Top Producer HOT</TopProducer>
+			<ShoppingCart>Shopping Cart</ShoppingCart>
+			<Payment>Payment</Payment>
+			<Total>Total:</Total>
+			<Quantity>Quantity:</Quantity>
+			<Producer>Producer:</Producer>
+			<Buying>Buying this product</Buying>
+			<ProductDesc>Product Description</ProductDesc>
+			<Update>Update</Update>
+			<ContinueBuying>Continue Buying</ContinueBuying>
+			<Quantity>Quantity</Quantity>
+			<Money>Money</Money>
+			<Remove>Remove</Remove>
+			<ModifyCart>Modify Cart</ModifyCart>
+			<PaymentInfo>Payment's Information</PaymentInfo>
+			<EmptyCart>Your shopping cart is empty!</EmptyCart>
+			<ExpiredCart>Your shopping cart is expired or empty! Please purchase again! Thanks!</ExpiredCart>
+			<BuyingSuccess>You purchase successful! Please check your mail (Inbox/Spam) and reconfirm your order with us! After that, we will send goods to the address of the recipient! Thanks!</BuyingSuccess>
+			<PleaseInputQuantity>Please enter the number of products to buy is an integer greater than 0!</PleaseInputQuantity>
+			<PaymentResult>Payment Result</PaymentResult>
+			<Image>Image</Image>
+			<RetailPrice>Retail Price</RetailPrice>
+			<sufProducts> products</sufProducts>
+			<PleaseAddCart>Please shopping!</PleaseAddCart>
+			<ProductDetail>Product's information</ProductDetail>
+		</DisplayProduct>
+		<Text>
+			<Hello>Hello</Hello>
+			<GetNewsSale>Receive Promotions</GetNewsSale>
+			<InputYourEmail>Input your email</InputYourEmail>
+			<Send>Send</Send>
+			<Search>Search</Search>
+			<QuickSearch>Quick Search</QuickSearch>
+			<SupportOnline>Support Online</SupportOnline>
+			<Link>Link</Link>
+			<NewsEvent>News - Event</NewsEvent>
+			<TopVideo>Top videos</TopVideo>
+			<PriceFrom>--- Price from ---</PriceFrom>
+			<PriceTo>--- To ---</PriceTo>
+			<SortBy>Sort by:</SortBy>
+			<NewUpdated>New updated</NewUpdated>
+			<PriceDESC>Price descending</PriceDESC>
+			<PriceASC>Price ascending</PriceASC>
+			<ListOfProduct>List of products of</ListOfProduct>
+			<ListOfAllProduct>List of all products</ListOfAllProduct>
+			<ListOfAllProductOffer>List of all promotions product</ListOfAllProductOffer>
+			<ListOfBrands>List of Brands</ListOfBrands>
+			<SearchResult>Search Results</SearchResult>
+			<AddEmailPromotionsOK>We will send promotional information via email just sign up!</AddEmailPromotionsOK>
+			<PleaseInputEmail>Please input your email address!</PleaseInputEmail>
+			<EmailInvalid>Address email is invalid!</EmailInvalid>
+			<Compare>Compare</Compare>
+			<ResultCompare>Result of compare products</ResultCompare>
+			<Gender>Gender</Gender>
+			<Male>Male</Male>
+			<Female>Female</Female>
+			<ChooseYourShoes>Choose Your Shoes</ChooseYourShoes>
+			<QuickFind>Quickly find the shoes you want</QuickFind>
+			<Department>Department</Department>
+			<Category>Category</Category>
+			<GenderCategory>Gender Category</GenderCategory>
+			<AnyColor>Any Color</AnyColor>
+			<AnySize>Any Size</AnySize>
+			<TopBrand>Top Brands</TopBrand>
+			<SendMail>Email to friend</SendMail>
+			<AddWishList>Add to wish list</AddWishList>
+			<YourSize>Don't see your size?</YourSize>
+			<AddCart>Add to cart</AddCart>
+			<ViewAll>View All</ViewAll>
+			<All>All</All>
+			<AllStyle>All styles of this brand</AllStyle>
+			<AllStyleTooltip>See all styles of this brand</AllStyleTooltip>
+			<AddToCartOK>Product was put into shopping-cart</AddToCartOK>
+			<ViewVideo>View video of this product</ViewVideo>
+			<SelectYourSize>Select your size</SelectYourSize>
+			<SelectYourSize2>Please select your size!</SelectYourSize2>
+			<PreviousPage1>Previous page</PreviousPage1>
+			<PreviousPage2>Back to previous page</PreviousPage2>
+			<TextView>Hover mouse on below small image to view multiple angles</TextView>
+			<WeSuggest>May We Suggest...</WeSuggest>
+			<OverallRating>Overall Rating</OverallRating>
+			<CustomerReviews>Customer Reviews</CustomerReviews>
+			<WriteReview>Write a review</WriteReview>
+			<ReadReview>Read reviews</ReadReview>
+			<ShareProduct>Share this product</ShareProduct>
+			<Shoutit>Shout it on your favorite Social Networks</Shoutit>
+			<ProductReviews>Product Reviews</ProductReviews>
+			<PostedBy>Posted by:</PostedBy>
+			<MoreDetail>More Detail</MoreDetail>
+			<QuickView>Quick View</QuickView>
+			<Description>Description</Description>
+			<ClickToQuickView>Click to quick view product</ClickToQuickView>
+			<ClickToViewDesc>Click to view product description</ClickToViewDesc>
+			<SelectColor>Select Color</SelectColor>
+			<Ad>Advertisement</Ad>
+			<SendContactOK>Your comment has been successfully sent! Thank you!</SendContactOK>
+			<SendContactNotOK>Can not send your comments! Please try again!</SendContactNotOK>
+			<NoResult>No result</NoResult>
+			<Statistics>Statistics</Statistics>
+			<Visitors>Visitors:</Visitors>
+			<PleaseChooseCategory>Please choose Gender Category!</PleaseChooseCategory>
+			<PleaseChooseSize>Please choose size!</PleaseChooseSize>
+			<PleaseChooseColor>Please choose color</PleaseChooseColor>
+			<SearchByNews>Search by news</SearchByNews>
+			<SearchByProduct>Search by product</SearchByProduct>
+			<WebLinks>Website links</WebLinks>
+			<CompanyName>Landscape CO. Thao Nguyen</CompanyName>
+			<Copyright>Copyright 2010 by Thao Nguyen Landscape</Copyright>
+			<PoweredBy>Powered by CDG.vn</PoweredBy>
+			<PoweredBy2>Powered by </PoweredBy2>
+			<AllRight>@Note the source from this site when you publish it</AllRight>
+			<MakeQuestion>Make a question</MakeQuestion>
+			<Back>Back</Back>
+			<PrintView>Print view</PrintView>
+			<Share>Share</Share>
+			<OtherNews>Other news</OtherNews>
+			<MessageOK>You have successfully sent the information! We will see and respond quickly. Thank you!</MessageOK>
+			<MessageError>Occur error. Please re-enter!</MessageError>
+			<OtherProducts>Other products</OtherProducts>
+			<TopHotProduct>Top HOT products</TopHotProduct>
+			<TopHotService>Top HOT services</TopHotService>
+			<PhotoGallery>Photo Gallery</PhotoGallery>
+			<OnlineNow>User online:</OnlineNow>
+			<ViewMore>View more</ViewMore>
+			<Language>Language</Language>
+			<VI>Vietnamese</VI>
+			<EN>English</EN>
+			<AlertOrder>Customers order products of the company Thao Nguyen may submit information by the form below! We will contact you shortly!</AlertOrder>
+			<ConfirmDelete>Do you want to remove this product from your cart?</ConfirmDelete>
+			<Catalog>Catalogs</Catalog>
+			<WelcomeYou>Welcome to visit our website</WelcomeYou>
+			<InputText>Enter keywords...</InputText>
+			<Weather>Weather</Weather>
+			<Rates>Rates</Rates>
+			<ClickToAddCart>Click to add cart the product </ClickToAddCart>
+			<Poll>Poll</Poll>
+			<Vote>Vote</Vote>
+			<ViewResult>View result</ViewResult>
+			<PleaseSelectAnswer>Please select an answer</PleaseSelectAnswer>
+			<Rate>Rate</Rate>
+			<PollResult>Survey results</PollResult>
+			<ImageCompany>Company Galleries</ImageCompany>
+			<Solution>Solutions</Solution>
+      <Consulting>Consulting</Consulting>
+		</Text>
+		<ToolTip>
+			<ViewProductByProducer>View all products of this producer</ViewProductByProducer>
+		</ToolTip>
+		<CompareProduct>
+			<ProductGroup>Product Group</ProductGroup>
+			<ProductName>Product Name</ProductName>
+			<ProductImage>Image</ProductImage>
+			<ProductPrice>Price</ProductPrice>
+			<ProductDesc>Description</ProductDesc>
+			<InStock>In stock</InStock>
+			<InStockYes>In stock YES</InStockYes>
+			<InStockNo>In stock NO</InStockNo>
+			<Quantity>Quantity</Quantity>
+		</CompareProduct>
+		<Customer>
+			<CustomerInfo>Custoner's Informations</CustomerInfo>
+			<BuyingPersonInfo>Buying person informations</BuyingPersonInfo>
+			<BuyingPersonName>Buying person name</BuyingPersonName>
+			<BuyingPersonAddress>Buying person address</BuyingPersonAddress>
+			<GettingPersonInfo>Receiving person informations</GettingPersonInfo>
+			<SameBuying>Same buying informations?</SameBuying>
+			<SameBuyingYes>Yes</SameBuyingYes>
+			<SameBuyingNo>No</SameBuyingNo>
+			<GettingPersonName>Receiving person name</GettingPersonName>
+			<GettingPersonAddress>Receiving person address</GettingPersonAddress>
+			<Tel>Tel</Tel>
+			<Mobile>Mobile</Mobile>
+			<Email>Email</Email>
+			<PaymentMethod>Payment Method</PaymentMethod>
+			<ByCash>Cash</ByCash>
+			<ByBank>Bank</ByBank>
+			<ByCredit>Credit card</ByCredit>
+			<Notes>Notes (All the information related to logistics, time shipping and receiving products)</Notes>
+			<CustomerLogin>Customer Login</CustomerLogin>
+			<Username>Username</Username>
+			<Login>Login</Login>
+			<Register>Register</Register>
+			<OK>OK</OK>
+			<ForgotPassword>Forgot Password</ForgotPassword>
+			<Reset>Reset</Reset>
+			<Text1>Already a member of the website!</Text1>
+			<Text2>Please login to manage personal information and your invoice!</Text2>
+			<Text3>If not a member, sign up now!</Text3>
+			<Registration>Become a member</Registration>
+			<EmailLogin>Email of login</EmailLogin>
+			<Password>Password</Password>
+			<FullName>FullName</FullName>
+			<Address>Address</Address>
+			<EmailExistent>This email already exists in the system!</EmailExistent>
+			<UsernameExistent>This username already exists in the system!</UsernameExistent>
+			<ChangeImage>Change Image</ChangeImage>
+			<SecurityCodeInvalid>Incorrect security code</SecurityCodeInvalid>
+			<RegisterSuccessful>Register Successful!</RegisterSuccessful>
+			<LoginInvalid>Login invalid!</LoginInvalid>
+			<LoginToAction>Please login to process this function!</LoginToAction>
+			<AddedListSuccessful>Added to wish list successfull!</AddedListSuccessful>
+			<RegisterNewAccount>Register new account</RegisterNewAccount>
+			<ErrorCreateAccount>Not create a new account! Please re-enter!</ErrorCreateAccount>
+			<Gender>Gender</Gender>
+			<SecurityCode>Security Code</SecurityCode>
+			<AlreadyMember>You are already member?</AlreadyMember>
+			<FillUsernameForAccount>Enter your username to register an account</FillUsernameForAccount>
+			<FillAccount>Enter your username and password to access your account</FillAccount>
+			<MyAccountHome>My Account Home</MyAccountHome>
+			<Welcome>Welcome</Welcome>
+			<PersonalInfo>Personal Information</PersonalInfo>
+			<ChangePassword>Change Password</ChangePassword>
+			<Logout>Log Out</Logout>
+			<Logout2>Log Out of My Account</Logout2>
+			<ViewWishList>View My Wishlist</ViewWishList>
+			<Question>What would you like to do?</Question>
+			<Introduction>Manage your information and enjoy faster checkout by saving your billing, shipping and credit card information to your account.</Introduction>
+			<OrderHistory>Order History</OrderHistory>
+			<ChangeAccount>Change Account Information</ChangeAccount>
+			<ErrorUpdateAccount>Not update your account! Please try again!</ErrorUpdateAccount>
+			<UpdateAccountSuccess>Your account information has been saved successfully.</UpdateAccountSuccess>
+			<ChangePasswordSuccess>Your password has been saved successfully.</ChangePasswordSuccess>
+			<Update>Update</Update>
+			<CurrentPassword>Current Password</CurrentPassword>
+			<NewPassword>New Password</NewPassword>
+			<ConfirmPassword>Confirm Password</ConfirmPassword>
+			<CurrentPassNotOK>Current password is incorrect</CurrentPassNotOK>
+			<PasswordNotMatch>The new password and new password confirmation you entered do not match.</PasswordNotMatch>
+			<ErrorChangePassword>Not change your password! Please try again!</ErrorChangePassword>
+			<OrderCode>Order Code</OrderCode>
+			<SumMoney>Total Money USD</SumMoney>
+			<SumMoneyVND>Total Money VND</SumMoneyVND>
+			<OrderDate>Order Date</OrderDate>
+			<ConfirmDelete>Are you sure want to delete this order and details of it?</ConfirmDelete>
+			<OrderDetail>Order Detail</OrderDetail>
+			<Actived>Status</Actived>
+			<NotActive>You have to confirm this order</NotActive>
+			<ClickToActive>Please click here to active this order!</ClickToActive>
+			<YesActive>you confirmed this order</YesActive>
+			<ThanksAfterActive>Your order have just reconfirmed successfully! Thanks for shopping at www.dagiay.thv.vn!</ThanksAfterActive>
+			<Title>Title</Title>
+			<Content>Content</Content>
+		</Customer>
+		<Article>
+			<NewsCategory>News Category</NewsCategory>
+			<DetailNews>Detail News</DetailNews>
+			<OtherNews>Other news</OtherNews>
+			<Print>Print</Print>
+			<SendToFriends>Send To Friends</SendToFriends>
+			<Back>Back</Back>
+			<Top>Top</Top>
+			<HotNews>Hot News</HotNews>
+			<ViewedMost>Viewed Most</ViewedMost>
+			<NewNews>Last news</NewNews>
+		</Article>
+		<Paging>
+			<First>First</First>
+			<Previous>Previous</Previous>
+			<Next>Next</Next>
+			<Last>Last</Last>
+		</Paging>
+		<SendToFriend>
+			<YourName>Your name:</YourName>
+			<YourEmail>Your email:</YourEmail>
+			<MailTo>Mail to:</MailTo>
+			<Message>Message:</Message>
+			<InputYourName>Please input your name</InputYourName>
+			<InputYourEmail>Please input your email</InputYourEmail>
+			<InputEmailTo>Please input email recipients</InputEmailTo>
+			<InputMessage>Please input your message</InputMessage>
+		</SendToFriend>
+		<Review>
+			<Title>Title</Title>
+			<Content>Content</Content>
+			<Defect>Defect</Defect>
+			<Advantage>Advantage</Advantage>
+			<Mark>Mark</Mark>
+			<CommentDate>CommentDate</CommentDate>
+			<Email>Email</Email>
+			<Tel>Tel</Tel>
+			<ChooseMark>---Choose mark---</ChooseMark>
+			<Review>Review</Review>
+			<Reset>Reset</Reset>
+		</Review>
+	</Web>
+</KhaviCMS>
+

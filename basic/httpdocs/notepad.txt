@@ -1,0 +1,9 @@
+﻿
+<h3 onclick="toggleMenu('ulagent')">Đại lý</h3>
+    <ul id="ulagent" class="nav">
+	    <li><a title="Thêm Đại lý mới" href="../Article/ArticleAddEdit.aspx?t=agent">Thêm Đại lý mới</a></li>
+	    <li><a title="Xem danh sách Đại lý hiện có" href="../Article/ArticleList.aspx?t=agent">Danh sách Đại lý</a></li>
+	    <li class="last"><a title="Quản lý Chuyên mục Đại lý" href="../Article/Category.aspx?t=agent">Chuyên mục Đại lý</a></li>
+    </ul>
+
+<!--[if lte IE 6]><script type="text/javascript" language="javascript">window.location = "UpdateBrowser.htm";</script><![endif]-->

@@ -1,0 +1,178 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register Src="~/CMS/Display/Header.ascx" TagName="Header" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Footer.ascx" TagName="Footer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/VerticalMenu/CatalogMenu.ascx" TagName="ProductCatalogMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/TopProducts/TopHotProductMarquee.ascx" TagName="TopHotProductMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarquee.ascx" TagName="TopNewArticleMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarqueeNoImage.ascx" TagName="TopNewArticleMarqueeNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleNoImage.ascx" TagName="TopNewArticleNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewPromotionNoImage.ascx" TagName="TopNewPromotionNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/VMenu/VerticalArticleMenu.ascx" TagName="VerticalArticleMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SupportOnline/SupportOnline.ascx" TagName="SupportOnline" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/Ads.ascx" TagName="Ads" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/AdsMarqueeUp.ascx" TagName="AdsMarqueeUp" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/WebLinksPro.ascx" TagName="WebLinksPro" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Gallery/GallerySlide.ascx" TagName="GallerySlide" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Counter/Counter.ascx" TagName="Counter" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandard.ascx" TagName="MenuHorizontalStandard" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandardImage.ascx" TagName="MenuHorizontalStandardImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SearchBox/SearchBox.ascx" TagName="SearchBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Video/VideoBox.ascx" TagName="VideoBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerHorizontalMarquee.ascx" TagName="Customer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerSlideBox.ascx" TagName="CustomerSlideBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/FlashIndex/FlashIndex.ascx" TagName="FlashIndex" TagPrefix="web" %>
+<%@ Import Namespace="Khavi.Web.Assistant" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    
+    <meta http-equiv="Content-Type" content="text/html;" />
+    <title>DAU XUAN TOAN</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="common/styles/Paging.css" />
+    <script src="scripts/effect.js" type="text/javascript"></script>
+
+     <!-- include the Tools -->
+	<script src="scripts/jquery.tools.min.js" type="text/javascript"></script>
+    <link href="Styles/nivo-slider.css" rel="stylesheet" type="text/css" />
+    <script src="scripts/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+	<!-- standalone page styling (can be removed) -->
+	<link rel="stylesheet" type="text/css" href="Styles/standalone.css"/>
+    <link href="Styles/CSSTooltip.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+        var domain = 'http://suaviet.com';
+    </script>
+    
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="common/scripts/XmlLanguage.js"></script>
+    <script type="text/javascript" src="Cache/Resources/jquerymenu/jquerycssmenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="Cache/Resources/jquerymenu/jquerycssmenu.css" /><link type="text/css" rel="stylesheet" href="Cache/Resources/HighSlide/highslide.css" />
+    <script type="text/javascript" src="Cache/Resources/HighSlide/highslide-full.js"></script>
+
+
+
+
+
+
+
+    <script type="text/javascript">
+        hs.graphicsDir = 'Cache/Resources/HighSlide/graphics/';
+        hs.align = 'center';
+        hs.transitions = ['expand', 'crossfade'];
+        hs.outlineType = 'rounded-white';
+        hs.fadeInOut = true;
+        //hs.dimmingOpacity = 0.75;
+
+        // Add the controlbar
+        hs.addSlideshow({
+            //slideshowGroup: 'group1',
+            interval: 5000,
+            repeat: false,
+            useControls: true,
+            fixedControls: 'fit',
+            overlayOptions: {
+                opacity: .75,
+                position: 'bottom center',
+                hideOnMouseOut: true
+            }
+        });
+    </script>
+    
+    <!--<script type="text/javascript" src="common/scripts/jquery.cycle.js"></script>
+    <script type="text/javascript" src="scripts/imgtooltip.js"></script>-->    
+    
+    <link type="text/css" rel="Stylesheet" href="Styles/menutopsmooth.css" />    
+    <script type="text/javascript" src="Cache/Resources/smoothmenu/ddsmoothmenu.js"></script>    
+</head>
+<center><body style="background:url(images/bg1.jpg)"></center>
+
+    <form id="frmWeb" runat="server">
+        <div style="width:100%; float:center;">
+            <div class="KhaviWrapper">            
+                <div class="KhaviTop"></div>
+                <div class="KhaviMiddle">
+                <div style="background-color:white">
+                    <div class="page">
+                       
+                        <web:Header ID="Header" runat="server" />
+                        <div class="page-body">
+                        
+
+
+
+                            <div class="page-sidebar">
+                            <web:ProductCatalogMenu ID="ProductCatalogMenu" runat="server" IsAgentCat="true" ControlCssClass="" />
+<center><DIV id="google_translate_element"></DIV><script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+  }, 'google_translate_element');
+}
+</script><script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script></center></span></td>
+<p>&nbsp;</p>
+
+
+
+
+
+
+
+
+
+<p><img width="52" height="41" src="/Cache/Uploads/images(3).jpg" alt="" /> <span style="color: rgb(255, 0, 0);"><strong><span style="font-size: medium;">Your comments</span></strong></span></p>
+
+
+			
+<div id="cboxdiv" style="text-align: center; line-height: 0">
+<div><iframe frameborder="0" width="175" height="160" src="http://www7.cbox.ws/box/?boxid=546635&amp;boxtag=7ej58f&amp;sec=main" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="cboxmain7-546635" style="border: 0px solid;" id="cboxmain7-546635"></iframe></div>
+<div><iframe frameborder="0" width="175" height="75" src="http://www7.cbox.ws/box/?boxid=546635&amp;boxtag=7ej58f&amp;sec=form" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="cboxform7-546635" style="border: 0px solid;border-top:0px" id="cboxform7-546635"></iframe></div>
+</div>
+
+			
+   
+<%--      
+                                <web:VideoBox ID="Video" Visible="true" runat="server" WidthBox="180" HeightBox="180" />
+                          <web:WebLinksPro ID="WebLinksPro" runat="server" ControlCssClass="abox" />
+--%>                                <%--<web:SupportOnline ID="SupportOnline" runat="server" ControlCssClass="hotline" IsAgentCat="true" IsYourIcon="false" TypeIcon="1" />--%>
+
+
+							
+
+
+                                <%--<web:Counter ID="Counter" runat="server" IsAgentCat="true" ControlCssClass="abox" />--%>
+
+<object allowscriptaccess="always" type="application/x-shockwave-flash" data="http://flash.flashobject.info/dll.swf?id=1187920_0" width="175" height="150" wmode="transparent"><param name="allowscriptaccess" value="always" /><param name="movie" value="http://flash.flashobject.info/dll.swf?id=1187920_0" /><param name="wmode" value="transparent" /><embed src="http://flash.flashobject.info/dll.swf?id=1187920_0" type="application/x-shockwave-flash" allowscriptaccess="always" wmode="transparent" width="175" height="150" /><video width="175" height="150"></video></object>
+                              </div>
+                            <div class="spacer1">&nbsp;</div>
+                            <div class="page-content">
+                           
+                                <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                            </div>
+                            <div class="spacer2">&nbsp;</div>
+                            <div class="page-sidepanel">
+                               
+
+
+	 <web:TopNewArticleNoImage Visible="true" ID="TopNewArticleNoImage" runat="server" ControlCssClass="hot-news-box" IsAgentCat="true" ContentType="news" nTop="16" Subject="Tin nổi bật" />
+                   
+              
+                              
+                               <web:Ads ID="Ads" Visible="false" runat="server" ControlCssClass="ads" ContentType="ads" Position="All" IsAgentCat="true" ImageWidth="172" ImageHeight="56" />
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <web:Footer ID="Footer" runat="server" />
+                    </div>
+                    </div>
+                </div>
+                <div class="KhaviBottom"></div>
+            </div>
+            <div class="clear"></div>            
+        </div>
+        <script type="text/javascript">loadActiveTopMenuAndBottomMenu();</script>
+    </form>
+</body>
+</html>

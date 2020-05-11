@@ -1,0 +1,48 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="WebAdmin_MasterPage" %>
+<%@ Import Namespace="Khavi.Web.Assistant" %>
+
+<%@ Register Src="controls/LeftMenu.ascx" TagName="LeftMenu" TagPrefix="uc" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>YDO HONG QUAN</title>
+    <link rel="Stylesheet" type="text/css" href="css/style.css" />
+    <link rel="Stylesheet" type="text/css" href="css/More.css" />
+    <script language="javascript" type="text/javascript" src="<%=Globals.ApplicationPath%>js/ReadLanguageXml.js"></script>
+    <script language="javascript" type="text/javascript" src="<%=Globals.ApplicationPath%>js/VietUtility.js"></script>
+    <script language="javascript" type="text/javascript" src="<%=Globals.GetAdminFolderUrl()%>js/JsAdmin.js"></script>
+    <script language="javascript" type="text/javascript" src="<%=Globals.ApplicationPath%>common/scripts/jquery.js"></script>
+</head>
+<body>
+    <form id="frmMaster" runat="server">
+    <div id="main">
+	    <div id="header">
+		    <a href="http://agoodweb.vn" class="logo"><img src="<%=Globals.GetAdminImagesUrl()%>logo.gif" style="width:300px; height:60px;" alt="Administrator" /></a> 
+		    <!--<a href="http://www.agoodweb.com.vn" target="_blank" class="download"><img alt="AGoodWeb CMS" src="<%=Globals.GetAdminImagesUrl()%>agoodweb2.gif" /></a>-->
+
+		    <ul id="top-navigation">
+			    <!--<li class="active"><span><span><a href="<%=Globals.GetAdminFolderUrl()%>Product/ProductList.aspx">Sản phẩm</a></span></span></li>
+			    <li><span><span><a href="<%=Globals.GetAdminFolderUrl()%>Article/ArticleList.aspx">Tin tức</a></span></span></li>
+			    <li><span><span><a href="<%=Globals.GetAdminFolderUrl()%>AboutUs/AboutUsList.aspx">Giới thiệu</a></span></span></li>
+			    <li><span><span><a href="<%=Globals.GetAdminFolderUrl()%>User/UserList.aspx">Người dùng</a></span></span></li>
+			    <li><span><span><a href="<%=Globals.GetAdminFolderUrl()%>Others/CustomerIdea.aspx">Thông tin khác</a></span></span></li>-->
+		    </ul>
+	    </div>
+	    <div id="welcome">
+	        <span style="color:Blue;">Hello</span>&nbsp;
+	        <span id="lblUsername" style="color:Red; font-weight:bold;" runat="server">admin</span>!&nbsp;
+	        <asp:LinkButton ID="linkLogout" ForeColor="Navy" Text="Logout" runat="server" OnClick="linkLogout_Click" CausesValidation="False"></asp:LinkButton>
+	    </div>
+	    <div id="middle">
+		    <uc:LeftMenu ID="LeftMenu" runat="server" />
+		    <div>
+		        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+		    </div>
+	    </div>
+	    <div id="footer"></div>
+    </div>
+    </form>
+</body>
+</html>

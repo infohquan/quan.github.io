@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="ext/jquery.mousewheel.min.js"></script>
+    <script type="text/javascript" src="jquery.tagsphere.min.js"></script>
+    <script type="text/javascript">
+	$(function(){
+	    $('#ts1').tagcloud({centrex:250,centrey:250});
+	    $('#ts2').tagcloud({centrex:100,centrey:100,min_font_size:10,max_font_size:16,zoom:100});
+	});
+    </script>
+
+    <style type="text/css">
+	.point a{
+	    text-decoration:none;
+	}
+</style>
+
+</head>
+<body>
+
+
+&nbsp;
+<div id="ts2" style="width:200px; height:210px; background-color:#000;position:relative;">
+    <ul>
+	<li><a href="#" rel="1">Home</a></li>
+	<li><a href="#" rel="2">About me</a></li>
+	<li><a href="#" rel="3">Friends</a></li>
+	<li><a href="#" rel="4">News</a></li>
+	<li><a href="#" rel="5">My calendar</a></li>
+	<li><a href="#" rel="6">Applications</a></li>
+	<li><a href="#" rel="7">Software</a></li>
+	<li><a href="#" rel="8">Gallery</a></li>
+	<li><a href="#" rel="9">Comments</a></li>
+	<li><a href="#" rel="1">Tips</a></li>
+	<li><a href="#" rel="2">Download</a></li>
+    </ul>
+</div>
+
+</body>
+</html>

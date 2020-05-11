@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<KhaviCMS>
+	<!--Xml cho phần website bên ngoài-->
+	<Web>
+		<Header>
+			<MyAccount>Tài khoản</MyAccount>
+			<MyOrderStatus>Đơn hàng</MyOrderStatus>
+			<Help>Trợ giúp</Help>
+			<MyWishList>List của tôi</MyWishList>
+			<MyCart>Giỏ hàng</MyCart>
+		</Header>
+		<MenuTop>
+			<Homepage>Trang chủ</Homepage>
+			<Product>Danh mục </Product>
+			<Promotions>Khuyến mãi</Promotions>
+			<AboutUs>Giới thiệu</AboutUs>
+			<News>Tin tức</News>
+			<Contact>Liên hệ</Contact>
+			<Service>Dịch vụ</Service>
+			<Partner>Bài giảng</Partner>
+			<Video>Video</Video>
+			<Sitemap>Sơ đồ web</Sitemap>
+			<FAQ>Hỏi đáp</FAQ>
+			<Promotion>Khuyến mãi</Promotion>
+			<Agent>Đại lý</Agent>
+			<CustomerIdea>Ý kiến khách hàng</CustomerIdea>
+			<Project>Dự án</Project>
+			<Customer>Liên kết website</Customer>
+			<Employment>Tuyển dụng</Employment>
+      <WebDemo>Hình ảnh</WebDemo>
+      <HomepageOther>CDGSoft</HomepageOther>
+      <AboutUsOther>Doanh nghiệp</AboutUsOther>
+      <WebDemoOther>Rao vặt</WebDemoOther>
+      <ContactOther>Paycart</ContactOther>
+    </MenuTop>
+		<DisplayProduct>
+			<Price>Giá:</Price>
+			<Viewed>Lượt xem:</Viewed>
+			<Detail>Chi tiết</Detail>
+			<AddToCart>Đặt hàng</AddToCart>
+			<NewProduct>Sản phẩm mới</NewProduct>
+			<HotProduct>Sản phẩm Hot</HotProduct>
+			<ViewedMost>Xem nhiều nhất</ViewedMost>
+			<SaleOff>Đang khuyến mãi</SaleOff>
+			<BestSeller>Mua nhiều nhất</BestSeller>
+			<ProductCatalog>Danh mục sản phẩm</ProductCatalog>
+			<TopProducer>Thương hiệu HOT</TopProducer>
+			<ShoppingCart>Giỏ hàng</ShoppingCart>
+			<Payment>Thanh toán</Payment>
+			<Total>Tổng cộng:</Total>
+			<Quantity>Số lượng:</Quantity>
+			<Producer>Nhà sản xuất:</Producer>
+			<Buying>Mua sản phẩm này</Buying>
+			<ProductDesc>Mô tả sản phẩm</ProductDesc>
+			<Update>Cập nhật</Update>
+			<ContinueBuying>Tiếp tục mua</ContinueBuying>
+			<Quantity>Số lượng</Quantity>
+			<Money>Thành tiền</Money>
+			<Remove>Xóa</Remove>
+			<ModifyCart>Sửa giỏ hàng</ModifyCart>
+			<PaymentInfo>Thông tin thanh toán</PaymentInfo>
+			<EmptyCart>Giỏ hàng của bạn đang trống!</EmptyCart>
+			<ExpiredCart>Giỏ hàng của bạn hết hạn hoặc trống! Bạn vui lòng mua hàng lại! Cám ơn!</ExpiredCart>
+			<BuyingSuccess>Bạn đã mua hàng thành công! Vui lòng kiểm tra email của bạn (Inbox/Spam) và xác nhận việc mua hàng! Sau đó, chúng tôi sẽ gởi hàng đến thông tin của người nhận hàng! Cám ơn!</BuyingSuccess>
+			<PleaseInputQuantity>Vui lòng nhập số lượng sản phẩm cần mua là số nguyên lớn hơn 0!</PleaseInputQuantity>
+			<PaymentResult>Kết quả giao dịch</PaymentResult>
+			<Image>Hình ảnh</Image>
+			<RetailPrice>Đơn giá</RetailPrice>
+			<sufProducts> Menu </sufProducts>
+			<PleaseAddCart>Mời bạn mua hàng!</PleaseAddCart>
+			<ProductDetail>Thông tin sản phẩm</ProductDetail>
+		</DisplayProduct>
+		<Text>
+			<Hello>Chào</Hello>
+			<GetNewsSale>Nhận tin khuyến mãi</GetNewsSale>
+			<InputYourEmail>Nhập email của bạn</InputYourEmail>
+			<Send>Gửi</Send>
+			<Search>Tìm kiếm</Search>
+			<QuickSearch>Tìm kiếm nhanh</QuickSearch>
+			<SupportOnline>Hỗ trợ</SupportOnline>
+			<Link>Liên kết</Link>
+			<NewsEvent>Tin tức - Sự kiện</NewsEvent>
+			<TopVideo>Top videos</TopVideo>
+			<PriceFrom>--- Giá từ ---</PriceFrom>
+			<PriceTo>--- Đến ---</PriceTo>
+			<SortBy>Sắp sếp theo:</SortBy>
+			<NewUpdated>Mới cập nhật</NewUpdated>
+			<PriceDESC>Giá giảm dần</PriceDESC>
+			<PriceASC>Giá tăng dần</PriceASC>
+			<ListOfProduct>Danh sách sản phẩm của</ListOfProduct>
+			<ListOfAllProduct>Tất cả sản phẩm</ListOfAllProduct>
+			<ListOfAllProductOffer>Danh sách sản phẩm khuyến mãi</ListOfAllProductOffer>
+			<ListOfBrands>Nhãn hiệu</ListOfBrands>
+			<SearchResult>Kết quả tìm kiếm</SearchResult>
+			<AddEmailPromotionsOK>Chúng tôi sẽ gửi thông tin khuyến mãi qua email vừa đăng ký!</AddEmailPromotionsOK>
+			<PleaseInputEmail>Vui lòng nhập địa chỉ email của bạn!</PleaseInputEmail>
+			<EmailInvalid>Địa chỉ email không hợp lệ!</EmailInvalid>
+			<Compare>So sánh</Compare>
+			<ResultCompare>Kết quả so sánh sản phẩm</ResultCompare>
+			<Gender>Giới tính</Gender>
+			<Male>Nam</Male>
+			<Female>Nữ</Female>
+			<ChooseYourShoes>Chọn giày của bạn</ChooseYourShoes>
+			<QuickFind>Tìm nhanh giày bạn muốn</QuickFind>
+			<Department>Danh mục</Department>
+			<Category>Nhóm</Category>
+			<GenderCategory>Chủng loại</GenderCategory>
+			<AnyColor>Tất cả màu sắc</AnyColor>
+			<AnySize>Tất cả kích thước</AnySize>
+			<TopBrand>Top nhãn hiệu</TopBrand>
+			<SendMail>Gửi cho bạn bè</SendMail>
+			<AddWishList>Thêm vào list</AddWishList>
+			<YourSize>Kích thước không vừa?</YourSize>
+			<AddCart>Đặt hàng</AddCart>
+			<ViewAll>Xem tất cả</ViewAll>
+			<All>Tất cả</All>
+			<AllStyle>Xem tất cả của nhà sản xuất này</AllStyle>
+			<AllStyleTooltip>Xem tất cả của nhà sản xuất này</AllStyleTooltip>
+			<AddToCartOK>Sản phẩm đã được đưa vào giỏ hàng</AddToCartOK>
+			<ViewVideo>Xem video của sản phẩm này</ViewVideo>
+			<SelectYourSize>Chọn kích thước</SelectYourSize>
+			<SelectYourSize2>Vui lòng chọn kích thước!</SelectYourSize2>
+			<PreviousPage1>Trang trước</PreviousPage1>
+			<PreviousPage2>Trở lại trang trước</PreviousPage2>
+			<TextView>Rê chuột vào những ảnh nhỏ bên dưới để xem ảnh sản phẩm ở nhiều góc độ</TextView>
+			<WeSuggest>Có thể bạn thích...</WeSuggest>
+			<OverallRating>Đánh giá chung</OverallRating>
+			<CustomerReviews>Khách hàng đánh giá</CustomerReviews>
+			<WriteReview>Viết đánh giá</WriteReview>
+			<ReadReview>Đọc đánh giá</ReadReview>
+			<ShareProduct>Chia sẻ sản phẩm này</ShareProduct>
+			<Shoutit>Đưa lên mạng xã hội của bạn</Shoutit>
+			<ProductReviews>Đánh giá về sản phẩm</ProductReviews>
+			<PostedBy>Đánh giá bởi:</PostedBy>
+			<MoreDetail>Xem chi tiết</MoreDetail>
+			<QuickView>Xem nhanh</QuickView>
+			<Description>Mô tả</Description>
+			<ClickToQuickView>Click để xem nhanh sản phẩm</ClickToQuickView>
+			<ClickToViewDesc>Click để xem mô tả vắn tắt sản phẩm</ClickToViewDesc>
+			<SelectColor>Chọn màu</SelectColor>
+			<Ad>Quảng cáo</Ad>
+			<SendContactOK>Ý kiến của bạn đã được gửi thành công! Cảm ơn bạn!</SendContactOK>
+			<SendContactNotOK>Không thể gửi ý kiến của bạn! Vui lòng thử lại!</SendContactNotOK>
+			<NoResult>Không tìm thấy kết quả</NoResult>
+			<Statistics>Thống kê</Statistics>
+			<Visitors>Lượt truy cập:</Visitors>
+			<PleaseChooseCategory>Vui lòng chọn chủng loại!</PleaseChooseCategory>
+			<PleaseChooseSize>Vui lòng chọn kích thước!</PleaseChooseSize>
+			<PleaseChooseColor>Vui lòng chọn màu sắc</PleaseChooseColor>
+			<SearchByNews>Tìm theo tin tức</SearchByNews>
+			<SearchByProduct>Tìm theo sản phẩm</SearchByProduct>
+			<WebLinks>Liên kết website</WebLinks>
+			<CompanyName>JOSEPH DAU XUAN TOAN</CompanyName>
+			<Copyright>Copyright 2010 by Thao Nguyen Landscape</Copyright>
+			<PoweredBy>Phát triển bởi CDG.vn</PoweredBy>
+			<PoweredBy2>Phát triển bởi </PoweredBy2>
+			<AllRight>@Ghi rõ nguồn khi bạn phát hành lại thông tin từ Website này</AllRight>
+			<MakeQuestion>Đặt câu hỏi</MakeQuestion>
+			<Back>Quay lại</Back>
+			<PrintView>Bản in</PrintView>
+			<Share>Chia sẻ</Share>
+			<OtherNews>Những tin khác</OtherNews>
+			<MessageOK>Bạn đã gửi thông tin thành công! Chúng tôi sẽ xem và trả lời nhanh nhất. Cảm ơn bạn!</MessageOK>
+			<MessageError>Đã xuất hiện lỗi. Vui lòng nhập lại!</MessageError>
+			<OtherProducts>Những sản phẩm khác</OtherProducts>
+			<TopHotProduct>Thông tin mới nhất</TopHotProduct>
+			<TopHotService>Dịch vụ nổi bật</TopHotService>
+			<PhotoGallery>Hình ảnh hoạt động</PhotoGallery>
+			<OnlineNow>Đang online:</OnlineNow>
+			<ViewMore>Xem thêm</ViewMore>
+			<Language>Ngôn ngữ</Language>
+			<VI>Tiếng Việt</VI>
+			<EN>Tiếng Anh</EN>
+			<AlertOrder>Quý khách hàng có thể gửi thông tin theo form bên dưới! Chúng tôi sẽ liên hệ trong thời gian sớm nhất!</AlertOrder>
+			<ConfirmDelete>Bạn muốn xóa sản phẩm này khỏi giỏ hàng?</ConfirmDelete>
+			<Catalog>Danh mục</Catalog>
+			<WelcomeYou>Chào mừng các bạn ghé thăm website</WelcomeYou>
+			<InputText>Nhập tiếng việt có dấu...</InputText>
+			<Weather>Thời tiết</Weather>
+			<Rates>Tỉ giá</Rates>
+			<ClickToAddCart>Click để đặt hàng sản phẩm </ClickToAddCart>
+			<Poll>Thăm dò ý kiến</Poll>
+			<Vote>Bình chọn</Vote>
+			<ViewResult>Xem kết quả</ViewResult>
+			<PleaseSelectAnswer>Vui lòng chọn câu trả lời</PleaseSelectAnswer>
+			<Rate>Tỷ lệ</Rate>
+			<PollResult>Kết quả khảo sát</PollResult>
+			<ImageCompany>Hình ảnh công ty</ImageCompany>
+			<Solution>Bài giảng</Solution>
+      <WebLayout>Mẫu thiết kế giao diện web</WebLayout>
+      <Consulting>Tin nỗi bật</Consulting>
+		</Text>
+		<ToolTip>
+			<ViewProductByProducer>Xem tất cả sản phẩm của nhà sản xuất này</ViewProductByProducer>
+		</ToolTip>
+		<CompareProduct>
+			<ProductGroup>Nhóm sản phẩm</ProductGroup>
+			<ProductName>Tên sản phẩm</ProductName>
+			<ProductImage>Ảnh sản phẩm</ProductImage>
+			<ProductPrice>Giá</ProductPrice>
+			<ProductDesc>Mô tả sản phẩm</ProductDesc>
+			<InStock>Trong kho</InStock>
+			<InStockYes>Còn hàng</InStockYes>
+			<InStockNo>Hết hàng</InStockNo>
+			<Quantity>Số lượng</Quantity>
+		</CompareProduct>
+		<Customer>
+			<CustomerInfo>Thông tin khách hàng</CustomerInfo>
+			<BuyingPersonInfo>Thông tin người mua hàng</BuyingPersonInfo>
+			<BuyingPersonName>Tên người mua hàng</BuyingPersonName>
+			<BuyingPersonAddress>Địa chỉ người mua</BuyingPersonAddress>
+			<GettingPersonInfo>Thông tin người nhận hàng</GettingPersonInfo>
+			<SameBuying>Giống thông tin mua hàng?</SameBuying>
+			<SameBuyingYes>Có</SameBuyingYes>
+			<SameBuyingNo>Không</SameBuyingNo>
+			<GettingPersonName>Tên người nhận hàng</GettingPersonName>
+			<GettingPersonAddress>Địa chỉ người nhận</GettingPersonAddress>
+			<Tel>Điện thoại</Tel>
+			<Mobile>Di động</Mobile>
+			<Email>Email</Email>
+			<PaymentMethod>Hình thức thanh toán</PaymentMethod>
+			<ByCash>Tiền mặt</ByCash>
+			<ByBank>Ngân hàng</ByBank>
+			<ByCredit>Thẻ tín dụng</ByCredit>
+			<Notes>Ghi chú (Tất cả những thông tin chi tiết liên quan đến việc giao nhận, thời gian vận chuyển và nhận sản phẩm)</Notes>
+			<CustomerLogin>Khách hàng đăng nhập</CustomerLogin>
+			<Username>Tên truy cập</Username>
+			<Login>Đăng nhập</Login>
+			<Register>Đăng ký</Register>
+			<OK>Đồng ý</OK>
+			<ForgotPassword>Quên mật khẩu</ForgotPassword>
+			<Reset>Nhập lại</Reset>
+			<Text1>Bạn đã là thành viên của website!</Text1>
+			<Text2>Hãy đăng nhập để quản lý thông tin cá nhân và các hóa đơn của bạn!</Text2>
+			<Text3>Nếu chưa phải là thành viên, hãy đăng ký ngay!</Text3>
+			<Registration>Đăng ký thành viên</Registration>
+			<EmailLogin>Email đăng nhập</EmailLogin>
+			<Password>Mật khẩu</Password>
+			<FullName>Họ tên</FullName>
+			<Address>Địa chỉ</Address>
+			<EmailExistent>Email này đã được sử dụng trong hệ thống!</EmailExistent>
+			<UsernameExistent>Tên đăng nhập này đã được sử dụng trong hệ thống!</UsernameExistent>
+			<ChangeImage>Đổi hình</ChangeImage>
+			<SecurityCodeInvalid>Mã bảo vệ không chính xác</SecurityCodeInvalid>
+			<RegisterSuccessful>Đăng ký thành công!</RegisterSuccessful>
+			<LoginInvalid>Đăng nhập không thành công!</LoginInvalid>
+			<LoginToAction>Vui lòng đăng nhập để thực hiện chức năng này!</LoginToAction>
+			<AddedListSuccessful>Đã thêm vào danh sách yêu thích thành công!</AddedListSuccessful>
+			<RegisterNewAccount>Đăng ký Tài khoản mới</RegisterNewAccount>
+			<ErrorCreateAccount>Không thể tạo tài khoản mới! Vui lòng nhập lại!</ErrorCreateAccount>
+			<Gender>Giới tính</Gender>
+			<SecurityCode>Mã xác nhận</SecurityCode>
+			<AlreadyMember>Bạn đã là thành viên</AlreadyMember>
+			<FillUsernameForAccount>Điền tên đăng nhập để tạo tài khoản</FillUsernameForAccount>
+			<FillAcount>Điền tên đăng nhập và mật khẩu để truy cập vào tài khoản</FillAcount>
+			<MyAccountHome>Trang chủ Cá nhân</MyAccountHome>
+			<Welcome>Chào</Welcome>
+			<PersonalInfo>Thông tin Tài khoản</PersonalInfo>
+			<ChangePassword>Đổi mật khẩu</ChangePassword>
+			<Logout>Thoát</Logout>
+			<Logout2>Thoát khỏi Tài khoản của tôi</Logout2>
+			<ViewWishList>Xem List của tôi</ViewWishList>
+			<Question>Bạn muốn làm gì?</Question>
+			<Introduction>Quản lý Thông tin Tài khoản cá nhân của bạn để việc thanh toán hàng hóa được nhanh hơn.</Introduction>
+			<OrderHistory>Đơn hàng trước đây</OrderHistory>
+			<ChangeAccount>Thay đổi thông tin Tài khoản</ChangeAccount>
+			<ErrorUpdateAccount>Không thể cập nhật tài khoản của bạn! Vui lòng thử lại!</ErrorUpdateAccount>
+			<UpdateAccountSuccess>Thông tin tài khoản của bạn đã được lưu thành công.</UpdateAccountSuccess>
+			<ChangePasswordSuccess>Thay đổi mật khẩu thành công.</ChangePasswordSuccess>
+			<Update>Cập nhật</Update>
+			<CurrentPassword>Mật khẩu hiện tại</CurrentPassword>
+			<NewPassword>Mật khẩu mới</NewPassword>
+			<ConfirmPassword>Xác nhận mật khẩu</ConfirmPassword>
+			<CurrentPassNotOK>Mật khẩu hiện tại không đúng</CurrentPassNotOK>
+			<PasswordNotMatch>Mật khẩu mới và xác nhận mật khẩu mới không giống nhau.</PasswordNotMatch>
+			<ErrorChangePassword>Không thể thay đổi mật khẩu của bạn! Vui lòng thử lại!</ErrorChangePassword>
+			<OrderCode>Mã đơn hàng</OrderCode>
+			<SumMoney>Tổng tiền USD</SumMoney>
+			<SumMoneyVND>Tổng tiền VND</SumMoneyVND>
+			<OrderDate>Ngày đặt hàng</OrderDate>
+			<ConfirmDelete>Bạn có chắc muốn xóa đơn hàng này và những chi tiết của nó?</ConfirmDelete>
+			<OrderDetail>Chi tiết đơn hàng</OrderDetail>
+			<Actived>Tình trạng</Actived>
+			<NotActive>Bạn chưa xác nhận đơn hàng này</NotActive>
+			<ClickToActive>Vui lòng click để xác nhận đơn hàng!</ClickToActive>
+			<YesActive>Bạn đã xác nhận đơn hàng này</YesActive>
+			<ThanksAfterActive>Đơn hàng của bạn đã được xác nhận thành công! Cảm ơn bạn đã mua sắm tại www.dagiay.thv.vn!</ThanksAfterActive>
+			<Title>Tiêu đề</Title>
+			<Content>Nội dung</Content>
+		</Customer>
+		<Article>
+			<NewsCategory>Danh mục tin tức</NewsCategory>
+			<DetailNews>Tin chi tiết</DetailNews>
+			<OtherNews>Những tin khác</OtherNews>
+			<Print>In</Print>
+			<SendToFriends>Gửi cho bạn bè</SendToFriends>
+			<Back>Trở lại</Back>
+			<Top>Đầu trang</Top>
+			<HotNews>Tin nổi bật</HotNews>
+			<ViewedMost>Tin đọc nhiều</ViewedMost>
+			<NewNews>Tin mới nhất</NewNews>
+		</Article>
+		<Paging>
+			<First>Trang đầu</First>
+			<Previous>Trang trước</Previous>
+			<Next>Trang sau</Next>
+			<Last>Trang cuối</Last>
+		</Paging>
+		<SendToFriend>
+			<YourName>Tên của bạn:</YourName>
+			<YourEmail>Email của bạn:</YourEmail>
+			<MailTo>Email người nhận:</MailTo>
+			<Message>Lời nhắn:</Message>
+			<InputYourName>Nhập tên của bạn</InputYourName>
+			<InputYourEmail>Nhập email của bạn</InputYourEmail>
+			<InputEmailTo>Nhập email người nhận</InputEmailTo>
+			<InputMessage>Nhập lời nhắn</InputMessage>
+		</SendToFriend>
+		<Review>
+			<Title>Tiêu đề:</Title>
+			<Content>Nội dung:</Content>
+			<Defect>Nhược điểm:</Defect>
+			<Advantage>Ưu điểm:</Advantage>
+			<Mark>Điểm:</Mark>
+			<CommentDate>Nhận xét lúc:</CommentDate>
+			<Email>Email:</Email>
+			<Tel>Điện thoại:</Tel>
+			<ChooseMark>---Chọn điểm---</ChooseMark>
+			<Review>Đánh giá</Review>
+			<Reset>Nhập lại</Reset>
+		</Review>
+
+	</Web>
+</KhaviCMS>

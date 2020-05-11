@@ -1,0 +1,56 @@
+﻿.ddsmoothmenu-v ul{
+margin: 0;
+padding: 0;
+width:100%;
+list-style-type: none;
+font: bold 12px Arial;
+}
+ 
+.ddsmoothmenu-v ul li{
+position: relative;
+list-style-type:none;
+}
+
+/* Top level menu links style */
+.ddsmoothmenu-v ul li a{
+display: block; background:white url(../images/rice.png) 6px center no-repeat; height:25px;
+overflow: auto; padding-left:20px;
+color: #58ae0a;
+text-decoration: none;
+margin-bottom:1px; line-height:25px;
+}
+
+.ddsmoothmenu-v ul li a:hover { color:#F2A505; }
+/*.ddsmoothmenu-v ul li a:link, .ddsmoothmenu-v ul li a:visited, .ddsmoothmenu-v ul li a:active{
+background: #ec535e;
+color: white;
+}*/
+/*
+.ddsmoothmenu-v ul li a.item0, .ddsmoothmenu-v ul li a.item7 { background:url(http://vhh.cdg.vn/images/vhh-yellow.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item1, .ddsmoothmenu-v ul li a.item8 { background:url(http://vhh.cdg.vn/images/vhh-green.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item2, .ddsmoothmenu-v ul li a.item9 { background:url(http://vhh.cdg.vn/images/vhh-blue.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item3, .ddsmoothmenu-v ul li a.item10 { background:url(http://vhh.cdg.vn/images/vhh-aqua.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item4, .ddsmoothmenu-v ul li a.item11 { background:url(http://vhh.cdg.vn/images/vhh-pink.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item5, .ddsmoothmenu-v ul li a.item12 { background:url(http://vhh.cdg.vn/images/vhh-bronze.png) no-repeat; width:159px; height:22px; }
+.ddsmoothmenu-v ul li a.item6, .ddsmoothmenu-v ul li a.item13 { background:url(http://vhh.cdg.vn/images/vhh-darkgreen.png) no-repeat; width:159px; height:22px; }
+*/
+
+/*.ddsmoothmenu-v ul li a.selected{ 
+background: black; 
+color: white;
+}*/
+
+/*Sub level menu items */
+.ddsmoothmenu-v ul li ul{
+position: absolute;
+width: 170px; /*Sub Menu Items width */
+top: 0;
+font-weight: normal;
+visibility: hidden;
+}
+
+ 
+/* Holly Hack for IE \*/
+* html .ddsmoothmenu-v ul li { float: left; height: 1%; }
+* html .ddsmoothmenu-v ul li a { height: 1%; }
+/* End */

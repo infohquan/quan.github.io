@@ -1,0 +1,106 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPageCustomer.master.cs" Inherits="MasterPageCustomer" %>
+<%@ Register Src="~/CMS/Display/Header.ascx" TagName="Header" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Footer.ascx" TagName="Footer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/VerticalMenu/VerticalMenu.ascx" TagName="ProductCatalogMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/TopProducts/TopHotProductMarquee.ascx" TagName="TopHotProductMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarquee.ascx" TagName="TopNewArticleMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarqueeNoImage.ascx" TagName="TopNewArticleMarqueeNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleNoImage.ascx" TagName="TopNewArticleNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/VMenu/VerticalArticleMenu.ascx" TagName="VerticalArticleMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SupportOnline/SupportOnline.ascx" TagName="SupportOnline" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/Ads.ascx" TagName="Ads" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/AdsMarqueeUp.ascx" TagName="AdsMarqueeUp" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Gallery/GallerySlide.ascx" TagName="GallerySlide" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Counter/Counter.ascx" TagName="Counter" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandard.ascx" TagName="MenuHorizontalStandard" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandardImage.ascx" TagName="MenuHorizontalStandardImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SearchBox/SearchBox.ascx" TagName="SearchBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Video/VideoBox.ascx" TagName="VideoBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerHorizontalMarquee.ascx" TagName="Customer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SearchBox/SearchDomain.ascx" TagName="SearchDomain" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Others/Utilities.ascx" TagName="Utilities" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Others/WebFunctions.ascx" TagName="WebFunctions" TagPrefix="web" %>
+
+<%@ Import Namespace="Khavi.Web.Assistant" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+    <meta http-equiv="Content-Type" content="text/html;" />
+    <title>Thiet ke web CDG, Thiết kế web CDG</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="common/styles/Paging.css" />
+    <link href="images/fav.ico" rel="shortcut icon" />
+    <script type="text/javascript">
+        var domain = '';
+    </script>
+    <!--[if lte IE 6]><script type="text/javascript" language="javascript">window.location = "UpdateBrowser.htm";</script><![endif]-->
+    <script type="text/javascript" src="common/scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="common/scripts/XmlLanguage.js"></script>
+    <script type="text/javascript" src="Cache/Resources/jquerymenu/jquerycssmenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="Cache/Resources/jquerymenu/jquerycssmenu.css" /><link type="text/css" rel="stylesheet" href="Cache/Resources/HighSlide/highslide.css" />
+    <script type="text/javascript" src="Cache/Resources/HighSlide/highslide-full.js"></script>
+    <script type="text/javascript">
+        hs.graphicsDir = 'Cache/Resources/HighSlide/graphics/';
+        hs.align = 'center';
+        hs.transitions = ['expand', 'crossfade'];
+        hs.outlineType = 'rounded-white';
+        hs.fadeInOut = true;
+        //hs.dimmingOpacity = 0.75;
+
+        // Add the controlbar
+        hs.addSlideshow({
+            //slideshowGroup: 'group1',
+            interval: 5000,
+            repeat: false,
+            useControls: true,
+            fixedControls: 'fit',
+            overlayOptions: {
+                opacity: .75,
+                position: 'bottom center',
+                hideOnMouseOut: true
+            }
+        });
+    </script>
+    
+    <!--<script type="text/javascript" src="common/scripts/jquery.cycle.js"></script>
+    <script type="text/javascript" src="scripts/imgtooltip.js"></script>-->
+    
+    <!--<link type="text/css" rel="Stylesheet" href="Cache/Resources/smoothmenu/ddsmoothmenu-v.css" /><link type="text/css" rel="Stylesheet" href="Cache/Resources/smoothmenu/ddsmoothmenu.css" />-->
+    <link type="text/css" rel="Stylesheet" href="Styles/menutopsmooth.css" />
+    <script type="text/javascript" src="Cache/Resources/smoothmenu/ddsmoothmenu.js"></script>    
+    
+</head>
+<body style="background:#000000" >
+    <form id="frmWeb" runat="server">
+        <div style="width:100%;">
+            <div class="KhaviWrapper">            
+                <div class="KhaviTop"></div>
+                <div class="KhaviMiddle">
+                    <div class="page">
+                        <web:Header ID="Header" runat="server" />
+                        <div class="page-body">
+                            <div class="page-sidebar">
+                                <web:VerticalArticleMenu ID="VerticalArticleMenu" runat="server" IsAgentCat="true" ContentType="service" />
+                                <web:SupportOnline ID="SupportOnline" runat="server" ControlCssClass="" IsAgentCat="true" IsYourIcon="false" TypeIcon="1" />
+                                <web:AdsMarqueeUp ID="AdsLeft" runat="server" ControlCssClass="" IsAgentCat="true" ContentType="ads" ImageWidth="187" ImageHeight="-1" Position="Left" />
+                            </div>
+                            <div class="spacer1">&nbsp;</div>
+                            <div class="page-customercontent">
+                                <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                        <web:Footer ID="Footer" runat="server" />
+                    </div>
+                </div>
+                <div class="KhaviBottom"></div>
+            </div>
+            <div class="clear"></div>            
+        </div>
+    </form>
+</body>
+</html>
+

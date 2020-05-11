@@ -1,0 +1,22 @@
+﻿/*Paging CSS*/
+.paging { height:25px; }
+.paging ul { display:inline; }
+.paging li
+{
+    display:block; background-color:#F7F7F7; float:left; height:25px; width:25px;
+    border:1px solid #ccc; text-align:center;
+}
+.paging a 
+{
+    color:#333333;background:#CCC;margin:1px;padding-top:4px;display:block;
+    height:19px; font-weight:bold; font-size:13px; text-decoration:none; 
+}
+.paging a:hover { background:#CC6600; color:#FFFFFF }
+.paging .selected {background:#FF9900;color:#333 }
+.paging .button /*first-previous-next-last*/
+{
+    display:block;
+    height:25px; width:25px; border:1px solid #ccc; text-align:center;
+}
+.paging .pagerange { background-color:Yellow; }
+/*End Paging CSS*/

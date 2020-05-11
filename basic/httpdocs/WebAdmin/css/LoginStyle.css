@@ -1,0 +1,164 @@
+﻿
+form  			{ margin: 0px; padding: 0px; }
+form .inputbox  { width: 120px; margin-left: 10px; }
+form br 	    { display: none; }
+
+.login          { margin: 0 auto; width: 500px; margin-bottom: 100px; }
+
+p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+#lock  {
+	background: url(../images/j_login_lock.jpg) 50% 0 no-repeat;
+	width: 150px;
+	height: 137px;
+}
+
+.m dl{
+    line-height:18px;
+}
+.m dt{
+    float:left;
+    width:6px;
+    font-weight:bold;
+    text-align:center;
+}
+.m dt.label{
+    float:left;
+    width:110px;
+    text-align:left;
+}
+.m dd{
+    margin-left:118px !important;
+    margin-left:115px;
+    height:18px;
+    height:auto !important;
+    min-height:18px;
+    color:#ce0000;
+}
+
+#content-box .m {
+  padding: 10px;
+}
+
+#content-box .padding {
+  padding: 30px 0;
+}
+
+#section-box  { float: right; width: 320px; margin-left: 10px;}
+
+#section-box .m {
+  padding: 5px; text-align:center;
+}
+#section-box .padding {
+	background: none; padding: 0;
+}
+
+#form-login label {
+	display: block;
+	float: left;
+	width: 120px;
+	text-align: right;
+	padding: 4px;
+	color: #666;
+	font-weight: bold;
+}
+
+#form-login .button_holder {
+	float: left;
+}
+
+#form-login div.button{
+ 	float: left;
+}
+
+#form-login div.button div.next {
+	float: left;
+}
+
+/* -- General styles ------------------------------ */
+body {
+	margin: 10px; padding: 0;
+	background: #fff; height: 95%;
+	padding-bottom: 1px;
+	font-size: 11px; font-family: Arial, Helvetica, sans-serif;
+}
+
+.clr { clear: both; overflow:hidden; height: 0; }
+
+img { border: 0 none; }
+
+h1 {
+	padding-bottom: 7px; padding-top:6px;
+	color: #0B55C4; font-size: 20px; font-weight: bold;
+}
+
+a:link    { color: #0B55C4; text-decoration: none; }
+a:visited { color: #0B55C4; text-decoration: none; }
+a:hover   { text-decoration: underline; }
+
+input, select { font-size: 10px;  border: 1px solid silver; }
+button        { font-size: 10px;  }
+
+input.disabled { background-color: #F0F0F0; }
+
+input.button  { cursor: pointer;   }
+.btnLogin { background-color:Orange; font-weight:bold; }
+input:focus,select:focus,textarea:focus { background-color: #ffd }
+
+/* -- overall styles ------------------------------ */
+
+#border-top.header          { background: url(../images/j_header_middle.png) repeat-x; }
+#border-top.header div      { background: url(../images/j_header_right.png) 100% 0 no-repeat; }
+#border-top.header div div  { background: url(../images/j_header_left.gif) no-repeat; height: 54px; }
+
+#border-top .title {
+	font-size: 22px; font-weight: bold; color:White; line-height: 44px;
+	padding-left: 180px;
+}
+
+#border-bottom 			{ background: url(../images/j_bottom.png) repeat-x; }
+#border-bottom div  		{ background: url(../images/j_corner_br.png) 100% 0 no-repeat; }
+#border-bottom div div 	{ background: url(../images/j_corner_bl.png) no-repeat; height: 11px; }
+
+#footer .copyright { margin: 10px; text-align: center; }
+
+#header-box  { border: 1px solid #ccc; background: #f0f0f0; }
+
+#content-box {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#content-box .padding  { padding: 30px 10px 0 10px; }
+
+/* -- buttons -> STILL NEED CLEANUP*/
+
+.button,.button div{
+	height: 1%;
+	float: right;
+}
+
+.button { background: url(../images/j_button1_left.png) no-repeat; white-space: nowrap; padding-left: 10px; margin-left: 5px;}
+
+.button .next { background: url(../images/j_button1_next.png) 100% 0 no-repeat; }
+
+.button a {
+	display: block; height: 26px;
+	float: left; line-height: 26px;
+	font-size: 12px; font-weight: bold;
+	color: #333; cursor: pointer;
+	padding: 0 30px 0 6px;
+}
+
+.button a:hover { text-decoration: none; color: #0B55C4; }
+
+
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message ul { color: #c00; font-weight:bold; padding-top:10px; height:26px; list-style:none; background: #E6C0C0 url(../images/notice-alert.png) 4px top no-repeat; border-top: 3px solid #DE7A7B; border-bottom: 3px solid #DE7A7B;}
+
+

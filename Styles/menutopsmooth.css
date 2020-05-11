@@ -1,0 +1,49 @@
+﻿
+.menutop { width:100%; margin-top:-5px;position: fixed; float:left; margin-top:0px; top:45px; z-index:200;left:0px;}
+.menutop-left { background:url(../images/thanhnen.jpg) repeat left; }
+.menutop-right { background:url(../images/thanhnen.jpg) repeat right; margin-left:5px; margin-right:0px; }
+.menutop-center {margin-right:5px; height:79px; padding-left:100px; margin-top:-50px; }
+    
+.ddsmoothmenu { font: bold 12px Arial; background:url(../images/menutop-bg.png) repeat-x; width: 100%; height:100%; margin-left:100px; padding-top:45px; }
+.ddsmoothmenu ul { z-index:100; margin:0; padding:0; list-style-type: none; }
+.ddsmoothmenu ul li { position: relative; display: inline; float: left; }
+.ddsmoothmenu ul li a { display: block; line-height:34px; text-transform:uppercase; color:White; text-decoration: none; padding:0 16px; }
+.ddsmoothmenu ul li a.active, .ddsmoothmenu ul li a:hover { background:url(../images/nenmenu1.jpg) repeat; height:32px; text-align:center; color:white; }
+
+/*.ddsmoothmenu ul li a.home, .ddsmoothmenu ul li a.home:hover { background:url(../images/icon-home.png) 15px 12px no-repeat; width:70px; height:39px; padding-top:0px; margin-top:0px; }
+.ddsmoothmenu a.cart, .ddsmoothmenu a.cart:hover { background:url(../images/icon-cart.png) no-repeat; width:48px; height:38px; margin-top:0px; }
+.ddsmoothmenu ul li a.home:hover, .ddsmoothmenu a.cart:hover { padding:6px 10px 0; }*/
+
+* html .ddsmoothmenu ul li a
+{ 
+	display: inline-block; /*IE6 hack to get sub menu links to behave correctly*/
+}
+
+/*1st sub level menu*/
+.ddsmoothmenu ul li ul { position: absolute; left: 0; display: none; visibility: hidden; }
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.ddsmoothmenu ul li ul li { display: list-item; float: none; }
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.ddsmoothmenu ul li ul li ul { top: 0; }
+
+/* Sub level menu links style */
+.ddsmoothmenu ul li ul li a { width:100px; height:22px; line-height:24px; margin:0; color:#1C4D90; background:#eeeeee; text-transform:none; }
+.ddsmoothmenu ul li ul li a:hover { width:inherit; height:22px; background:#cccccc; text-align:left; color:Black;}
+
+/* Holly Hack for IE \*/
+* html .ddsmoothmenu { height: 1%; } /*Holly Hack for IE7 and below*/
+
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass { position: absolute; top: 12px; right: 7px; }
+
+.rightarrowclass { position: absolute; top: 6px; right: 5px; }
+
+/* ######### CSS for shadow added to sub menus  ######### */
+
+.ddshadow{ position: absolute; left: 0; top: 0; width: 0; height: 32px; background: silver; }
+
+.toplevelshadow { opacity: 0.8; }

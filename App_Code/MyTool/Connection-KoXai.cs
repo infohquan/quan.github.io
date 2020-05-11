@@ -1,0 +1,208 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.SqlClient;
+
+
+namespace Connection
+{
+    public class MyConnection2
+    { 
+        //string m_Con = ConfigurationManager.ConnectionStrings["ConStringWeb"].ConnectionString.ToString();
+        public string m_Con = "server=112.78.7.45;uid=cdg01;pwd=congdoan010;database=congdoan010_cdg";
+        //public string m_Con = "server=113.161.75.100;uid=doancgd;pwd=doan2011;database=agoodweb";
+        public MyConnection2()
+        { }
+
+        public SqlConnection ConnectionSql()
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            try
+            {
+                Connection.Open();
+
+                return Connection;
+            }
+            finally
+            {
+                Connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Lấy dữ liệu
+        /// </summary>
+        /// <param name="DatasetName">Tên table</param>
+        /// <param name="Sql">Câu lệnh Sql</param>
+        /// <returns></returns>
+        public DataSet SelectData(string DatasetName, string Sql)
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection = ConnectionSql();
+
+            SqlCommand mCommand = new SqlCommand(Sql, Connection);
+            mCommand.Connection = Connection;
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = mCommand;
+            DataSet ds = new DataSet();
+            da.Fill(ds, DatasetName);
+            return ds;
+        }
+
+        public DataSet SelectData(string DatasetName, string Sql, string[] strParaName, SqlDbType[] sqlDbType, object[] objValue)
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection = ConnectionSql();
+            SqlCommand mCommand = new SqlCommand(Sql, Connection);
+            mCommand.Connection = Connection;
+
+            SqlParameter sqlPara;
+            for (int i = 0; i < strParaName.Length; i++)
+            {
+                sqlPara = new SqlParameter();
+                sqlPara.ParameterName = strParaName[i];
+                sqlPara.SqlDbType = sqlDbType[i];
+                sqlPara.Value = objValue[i];
+                mCommand.Parameters.Add(sqlPara);
+            }
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = mCommand;
+
+            DataSet ds = new DataSet();
+            da.Fill(ds, DatasetName);
+            return ds;
+        }
+
+        public DataSet SelectData(string DatasetName, string Sql, int nPage, int nPageSize)
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection = ConnectionSql();
+
+            SqlCommand mCommand = new SqlCommand(Sql, Connection);
+            mCommand.Connection = Connection;
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = mCommand;
+            DataSet ds = new DataSet();
+            da.Fill(ds, (nPage -1) * nPageSize, nPageSize, DatasetName);
+            return ds;
+        }
+
+        /// <summary>
+        /// Thưc thi câu lệnh Sql
+        /// </summary>
+        /// <param name="Sql"></param>
+        public void ExeSql(string Sql)
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            DataSet ds = new DataSet();
+            Connection.Open();
+            SqlCommand mCommand = new SqlCommand(Sql, Connection);
+
+            mCommand.Connection = Connection;
+            mCommand.ExecuteNonQuery();
+            mCommand.Clone();
+        }
+
+        public int ExcuteSql(string Sql, string strParaName, SqlDbType sqlDbType, object objValue)
+        {
+            int kq = 0;
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection.Open();
+            SqlCommand mCommand = new SqlCommand();
+            mCommand.Connection = Connection;
+            mCommand.CommandText = Sql;
+            mCommand.CommandType = CommandType.Text;
+
+            SqlParameter sqlPara;
+            sqlPara = new SqlParameter();
+            sqlPara.ParameterName = strParaName;
+            sqlPara.SqlDbType = sqlDbType;
+            sqlPara.Value = objValue;
+            mCommand.Parameters.Add(sqlPara);
+            kq = mCommand.ExecuteNonQuery();
+            mCommand.Clone();
+            return kq;
+        }
+
+        public int ExcuteSql(string Sql, string[] strParaName, SqlDbType[] sqlDbType, object[] objValue)
+        {
+            int kq = 0;
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection.Open();
+            SqlCommand mCommand = new SqlCommand();            
+            mCommand.Connection = Connection;
+            mCommand.CommandText = Sql;
+            mCommand.CommandType = CommandType.Text;
+
+            SqlParameter sqlPara;
+            for (int i = 0; i < strParaName.Length; i++)
+            {
+                sqlPara = new SqlParameter();
+                sqlPara.ParameterName = strParaName[i];
+                sqlPara.SqlDbType = sqlDbType[i];
+                sqlPara.Value = objValue[i];
+                mCommand.Parameters.Add(sqlPara);
+            }
+            kq = mCommand.ExecuteNonQuery();
+            mCommand.Clone();
+            return kq;
+        }
+
+        /// <summary>
+        /// Thực thi Sql (ko cần SqlDbType)
+        /// </summary>
+        /// <param name="Sql"></param>
+        /// <param name="strParaName"></param>
+        /// <param name="objValue"></param>
+        /// <returns></returns>
+        public int ExcuteSql(string Sql, string[] strParaName, object[] objValue)
+        {
+            int kq = 0;
+            SqlConnection Connection = new SqlConnection(m_Con);
+            Connection.Open();
+            SqlCommand mCommand = new SqlCommand();
+            mCommand.Connection = Connection;
+            mCommand.CommandText = Sql;
+            mCommand.CommandType = CommandType.Text;
+
+            SqlParameter sqlPara;
+            for (int i = 0; i < strParaName.Length; i++)
+            {
+                sqlPara = new SqlParameter();
+                sqlPara.ParameterName = strParaName[i];
+                sqlPara.Value = objValue[i];
+                mCommand.Parameters.Add(sqlPara);
+            }
+            kq = mCommand.ExecuteNonQuery();
+            mCommand.Clone();
+            return kq;
+        }
+
+        /// <summary>
+        /// Lấy giá trị của cột đầu tiên và hàng đấu tiên trong câu lệnh Sql (chỉ Select 1 giá trị trong table)
+        /// </summary>
+        /// <param name="Sql"></param>
+        /// <returns></returns>
+        public object ExecuteScalar(string Sql)
+        {
+            SqlConnection Connection = new SqlConnection(m_Con);
+            DataSet ds = new DataSet();
+            Connection.Open();
+            SqlCommand mCommand = new SqlCommand(Sql, Connection);
+
+            mCommand.Connection = Connection;
+            return mCommand.ExecuteScalar();
+        }
+
+        //public int ExecuteData(string[] strParaName, object[] objValue, string typeSql)
+        //{ 
+
+        //}
+    }
+}

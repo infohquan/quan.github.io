@@ -1,0 +1,79 @@
+﻿.jquerycssmenu
+{
+    font-weight:bold; font-family:Verdana; font-size:12px;
+    /*border-bottom: 1px solid black;*/
+    /*padding-left: 0px; offset of tabs relative to browser left edge*/
+}
+
+.jquerycssmenu ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.jquerycssmenu ul li {
+    display: inline; float:left; position:relative; 
+    cursor:pointer; margin:0 1px 0 0;
+}
+/*.jquerycssmenu ul li:hover { margin-top:-22px; }*/
+/*Top level menu link items style*/
+.jquerycssmenu ul li a{
+    display:block; color:White; font-weight:bold; font-size:11px; text-decoration:none; padding-top:38px;
+}
+.jquerycssmenu ul li a.first { border:none; }
+.jquerycssmenu ul li a:hover{
+    color:Yellow; font-weight:bold;
+}
+	
+/*1st sub level menu*/
+.jquerycssmenu ul li ul{
+    position: absolute;
+    left: 0;
+    display: block;
+    visibility: hidden; margin-top:15px; margin-left:-15px;
+    /*border-top: 1px solid black;*/
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.jquerycssmenu ul li ul li{
+    display: list-item;
+    /*float: none;*/ float:left;
+    margin:0px;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jquerycssmenu ul li ul li ul{
+    top: 0;
+}
+
+/* Sub level menu links style */
+.jquerycssmenu ul li ul li a{
+    font: normal 12px Arial,Tahoma;
+    width: 160px; /*width of sub menus*/
+    background: #f8e690;
+    color: black;
+    padding: 4px 5px;
+    margin: 0;
+    border-top-width: 0;
+    border-bottom: 1px solid #72726f; 
+    display:block; text-align:left; text-indent:10px;
+}
+
+.jquerycssmenu ul li ul li a:hover{ /*sub menus hover style*/
+    background: #f6fcc1;
+    color: black;
+}
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+    position: absolute;
+    top: 7px;
+    right: 5px;
+}
+
+.rightarrowclass{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}

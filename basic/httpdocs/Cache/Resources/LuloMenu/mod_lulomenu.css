@@ -1,0 +1,117 @@
+.transFaceMenu {
+	position:absolute;
+	overflow:hidden; 
+	left:-1000px; 
+	top:-1000px; 
+}
+.transFaceMenu .content {
+	position:absolute; 
+}
+.transFaceMenu .items {
+	width:170px;
+	position:relative;
+	left:0px;
+	top:0px;
+	z-index:2;
+	border: 1px solid #CCCCCC;
+	border-bottom:none;
+}
+.transFaceMenu td {
+	color: #000000 !important;
+	line-height:22px !important;
+	font-size: 12px !important;
+	font-family: Arial, Helvetica, sans-serif;
+	text-align: left !important;
+	font-weight: bold !important;
+	border-bottom:1px solid #CCCCCC !important;
+	padding: 2px 15px 1px 10px !important;
+}
+.transFaceMenu .item.hover td {
+	color: #FE0000 !important;
+	background-color: #fcfcb6 !important;
+}
+.transFaceMenu .item { 
+	height: 23px;
+	text-decoration: none;
+	cursor:pointer; 
+	cursor:hand; 
+}
+.transFaceMenu .background {
+	position:absolute;
+	left:0px;
+	top:0px; 
+	z-index:1; 
+	-moz-opacity:0.85; 
+	filter:alpha(opacity=85);
+	background-color: #f3f1f2 !important;
+}
+.transFaceMenu .shadowRight { 
+	position:absolute;
+	z-index:3; 
+	top:-3000px;
+	width:2px; 
+	-moz-opacity:0.85; 
+	filter:alpha(opacity=85);
+}
+.transFaceMenu .shadowBottom { 
+	position:absolute;
+	z-index:1; 
+	left:-3000px;
+	height:2px; 
+	-moz-opacity:0.85; 
+	filter:alpha(opacity=85);
+}
+.transFaceMenu .item.hover {
+}
+.transFaceMenu .item img {
+}
+
+/* MAIN MENU */
+table.mod_lulomenu {
+	position:relative;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	margin:0px;
+	margin-right:20px;
+	border-collapse:collapse;
+}
+table.mod_lulomenu td {
+	width:auto;
+	white-space:nowrap;
+}
+table.mod_lulomenu td.act {
+}
+table.mod_lulomenu a {
+	height:32px;
+	line-height:30px;
+	white-space:nowrap;
+	font-size: 13px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	text-transform:none;
+	margin:0px;
+	padding: 2px 4px 0px 4px;
+	position:relative;
+}
+div.mod_lulomenu a:link, div.mod_lulomenu a:visited {
+	color: #FFF;
+}
+div.mod_lulomenu a:hover {
+	color: #FC0;
+}
+a.active:link, a.active:visited {
+	color: #FC0 !important;
+}
+a.active:hover {
+	text-decoration: none;
+}
+
+#facemenusubwrap  {
+	text-align: left;
+}
+table.mod_lulomenu span {
+	color: #FFF !important;
+	font-size:13px;
+}

@@ -1,0 +1,41 @@
+﻿
+/*body {margin:3px 0px; background-color:#f4f5f6; font: 12px arial;}*/
+#topmenu, .parent-menu, .sub-menu {width:906px; margin:0px 13px;}
+#topnews, #content {width:990px; padding:0px 5px;}
+#topmenu {height:46px; margin-bottom:10px;z-index:-10px;}
+.fl, #topmenu, #content {float:left;}
+.fr {float:right;}
+.parent-menu {height:25px; font:11px tahoma; color:#ffffff; text-align:center; background:#a24848 url('http://vnexpress.net/Images/Menu/pmenu.gif') repeat-x top;}
+.pmenu-sep {width:25px;}
+.pmenu-normal{height:15px; padding:7px; cursor:pointer;}
+.pmenu-normal, .pmenu-active, .pmenu-normalleft, .pmenu-normalright, .pmenu-activeleft, .pmenu-activeright {cursor:pointer;}
+.pmenu-normalleft, .pmenu-normalright, .pmenu-activeleft, .pmenu-activeright {width:3px; height:25px;font-size:1px;}
+.pmenu-active {height:15px; padding:7px; color:#f5ec57; background:#f4f5f6 url('http://vnexpress.net/Images/Menu/pmenu-active.gif') repeat-x top;}
+.pmenu-activeleft {height:27px; background:#f4f5f6 url('http://vnexpress.net/Images/Menu/pmenu-activeleft.gif') no-repeat top;}
+.pmenu-activeright {height:27px; background:#f4f5f6 url('http://vnexpress.net/Images/Menu/pmenu-activeright.gif') no-repeat top;}
+.sub-menu {height:21px; background:#d5dae2 url('http://vnexpress.net/Images/Menu/smenu.gif') repeat-x top;}
+.smenu-content {width:678px; height:17px;padding:2px 7px;}
+.smenu-content2 {width:892px; height:17px;padding:2px 7px;}
+.smenu-content3 {width:534px; height:17px;padding:2px 7px;}
+.drss {width:50px; padding:3px 4px}
+.user {height:15px; padding: 3px 5px;font:bold 11px arial; color:#8a0000; text-align:center;}
+.user a {font:bold 11px arial; color:#8a0000; text-decoration:none;}
+.user a:hover {text-decoration:underline;}
+.search {width:208px;height:21px; margin-left:4px;padding:0px;}
+.txtsearch {width:137px; height:13px; font:11px arial; color:#9196a2; padding:4px 5px; border:0; border-right: #858585; background:#ffffff url('http://vnexpress.net/Images/Background/txt-search.gif') repeat-x top;}
+#HOSE, #HASTC, .hotnews-top, .hotnews-content, .hotnews-bottom, .t3, .tab, 
+
+.folder, .folder-title, .folder-title2, .box-title1, .folder-content, .folder-bottom, .folder-bottom2, .parent-menu, .email-print,  .content,
+.sub-menu, .adv-header, .box-item, .linksite-box, .folder-header, .folder-top, .folder-news, .othernews-header, .othernews, .adword {position:relative;}
+
+
+.toplist-content, .tab, .hotnews-top, .toplist-bottom,
+.fmenu-top, .hotnews-topright, .hotnews-bottomright, .parent-menu, .sub-menu, .sub-menucontent, .search , 
+
+.folder, .folder-title, .folder-title2, .box-title1, .folder-content, .folder-bottom, .folder-bottom2, .email-print,
+
+.box-item, .box-middle1, .folder-header, .folder-top, .othernews-header,
+.other-folder2 {overflow:hidden;}
+.link-rss {font:12px arial; color:#919090;text-decoration:none;}
+.link-submenu {font:11px arial; color:#004f8b; text-decoration:none;}
+.link-submenu:hover {text-decoration:underline;}

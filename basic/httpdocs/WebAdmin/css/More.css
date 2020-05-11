@@ -1,0 +1,42 @@
+﻿
+.linkaddcolor
+{
+    color:Red; text-decoration:underline; font-size:13px; font-weight:bold;
+}
+.linkaddcolor:hover
+{
+    color:Blue; text-decoration:none; font-size:13px; font-weight:bold;
+}
+.clearthis
+{
+    margin : 0px;
+	height : 3px;
+	clear : both;
+	float : none;
+	line-height : 0px;
+	overflow : hidden;
+}
+.customer_text
+{
+    text-align:left; width:30%; color:Black; text-indent:20px; font-weight:normal;
+}
+.tblBuying { width:100%; border:solid 4px Red; }
+.tblReceiving { width:100%; border:solid 4px Orange; margin-top:5px; }
+.headerGridView
+{
+    color:White;
+    font-size:12px;
+    font-family:Tahoma,Arial,Verdana;
+    background-image:url(../Images/headerGridView.gif);
+    vertical-align:middle;
+    height:30px;
+    text-align:center;
+}
+.imagetemplate { width:35px; height:35px; border:0px; }
+.infoRed { font-weight:bold; font-size:14px; color:Red; }
+.infoNavy { font-weight:bold; font-size:14px; color:Navy; }
+.infoBlue { font-weight:bold; font-size:14px; color:Blue; }
+.linkview { color:Green; font-weight:bold; }
+.linkview:hover { color:Red; font-weight:bold; text-decoration:underline; }
+.linkdelete { color:Red; font-weight:bold; }
+.linkdelete:hover { color:Orange; font-weight:bold; text-decoration:underline; }

@@ -1,0 +1,17 @@
+﻿/*ko xai*/
+.customer-box { margin-top:3px; }
+.customer-box-left { background:url(../images/customer-box-left.png) no-repeat left; }
+.customer-box-right { background:url(../images/customer-box-right.png) no-repeat right; margin-left:8px; margin-right:0px; }
+.customer-box-center { background:url(../images/customer-box-center.png) repeat-x left;margin-right:8px; height:134px; }
+/*
+<link type="text/css" rel="stylesheet" href="Styles/customerbox.css" />
+                            <div class="customer-box">
+                                <div class="customer-box-left">
+                                    <div class="customer-box-right">
+                                        <div class="customer-box-center">
+                                            aaaaaaaaaaaa
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+*/

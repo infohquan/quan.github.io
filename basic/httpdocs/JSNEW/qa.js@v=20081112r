@@ -1,0 +1,2647 @@
+﻿// qa.js
+// questions and answers
+var _QA_ERROR_FIELD_MAP = {
+  'question'          :'error_questionTitle',
+  'question_too_short':'error_questionTitle',
+  'question_too_long' :'error_questionTitle',
+  'location'          :'error_questionLocation',
+  'no_location'       :'error_questionLocation',
+  'captcha'           :'error_questionCaptcha',
+  'no_captcha'        :'error_questionCaptcha',
+  'category'          :'error_questionCategory',
+  'body_too_short'    :'error_questionBody',
+  'body_too_long'     :'error_questionBody',
+  'bad_friend_email'  :'error_friendEmail'
+};
+/*var _ANSWER_ERROR_LABELS = {
+  'answer'              :'Please enter an answer.',
+  'answer_too_short'    :'Sorry, your answer is too short. A minimum of 25 characters is needed.',
+  'answer_too_long'     :'Sorry, your answer is too long. Answers cannot be longer than 5000 characters.',
+  'captcha'             :'Please enter the correct text in the input box.',
+  'no_captcha'          :'Please enter the correct text in the input box.'
+};*/
+var _ANSWER_ERROR_FIELD_MAP = {
+  'answer'              :'error_answerBody',
+  'answer_too_short'    :'error_answerBody',
+  'answer_too_long'     :'error_answerBody',
+  'captcha'             :'error_answerCaptcha',
+  'no_captcha'          :'error_answerCaptcha'
+};
+var _QA_DEFAULT_FIELDS = { 'questionTitle':'write your question here','questionBody':'optional details about your question' };
+var _ANSWER_ERROR_FORM_FIELDS = new Array ( 'error_answerBody', 'error_answerCaptcha' );
+var _ANSWER_ERROR_REG_FIELDS = new Array  ( 'error_regEmail', 'error_regPassword', 'error_regName');
+var _ANSWER_ERROR_LOGIN_FIELDS = new Array ( 'error_loginEmail', 'error_loginPassword' );
+var _qa_errors = new Queue(10);
+var _content_type_def = {'q':'question','a':'answer','p':'profile','b':'blog post','c':'blog comment'};
+var _MODAL_MUTEX = 5;
+var _STATS_LAYER_MUTEX = 6;
+var _loc_lookup = false;
+// ajax script parameters
+var _aj_scripts = {
+  'n': { 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'l': { 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'us': { 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'tg':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'e':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'p':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'rn':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'ph':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'stloc':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'cbc': { 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'mhtt': { 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'load_my_homes':{ 'script':'q_load_my_homes.php', 'method':'get', 'output':'text' },
+  'myhomes':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'my_link':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'delete_my_link':{ 'script':'q_update_info.php', 'method':'post', 'output':'text' },
+  'delete_user_property': { 'script':'q_delete_user_property.php', 'method':'post','output':'text'},
+  'add_user_property': { 'script':'q_add_user_property.php', 'method':'post','output':'xml'},
+  'load_contents':{'script':'q_load_user_contents.php','method':'get','output':'text'},
+  'new_search_alert': { 'script':'q_add_search_alert.php', 'method':'post', 'output':'xml' },
+  'new_voices_alert': { 'script':'q_qa_email_subscribe.php', 'method':'get', 'output':'xml' },
+  'update_email_alert': { 'script':'q_edit_email_alert.php', 'method':'post', 'output':'text' }
+};
+var _profile_stats;
+var _up_layer_show = false;
+// updates the # chars left
+function update_length_counter(element,len,counter)
+{
+  var the_len = element.value.length;
+  var left = Math.max(0,len-the_len);
+  xb_get_element(counter).innerHTML = '<span class="charsLeft">' + left + '</span> ký ' + (left == 1 ? '' : '') + ' tự';
+}
+// checks if a textarea has reached its max length
+function check_max_length(t,len)
+{
+  var the_len = t.value.length;
+  if (the_len > len)
+  {
+    t.value = t.value.substring(0,len);
+    return false;
+  }
+  return true;
+}
+// queries a location
+function q_location(loc_field,legacy,neighborhoodIdList,loc_id_field)
+{
+  // set a flag to override location lookup
+  if (xb_get_element('ql_override'))
+    xb_get_element('ql_override').value = 0;
+  var loc = sanitize_input(loc_field.value);
+  if (loc == '' || is_default_location(loc))
+  {
+    if (typeof(loc_id_field) != 'undefined' && xb_get_element(loc_id_field))
+      xb_get_element(loc_id_field).value = 0;
+    return false;
+  }
+
+  if (typeof(neighborhoodIdList) == 'undefined' || !xb_get_element(neighborhoodIdList))
+    neighborhoodIdList = 'questionNeighborhood';
+  var url = site_root + 'q_qa_location.php@output=json&loc='+encodeURIComponent(loc);
+  if (typeof(legacy) != 'undefined' && legacy == true)
+    url += '&legacy=1';
+  var http = getHTTPObject();
+  http.open("GET", url);
+  http.onreadystatechange =
+    function()
+    {
+      if (http.readyState == 4)
+      {
+        _loc_lookup = true;
+        var data;
+        eval("data="+http.responseText);
+        if (!data || typeof(data.main) == 'undefined' || typeof(data.main.locationId) == 'undefined' || data.main.locationId == '')
+        {
+          if (xb_get_element(neighborhoodIdList))
+          {
+            clear_pulldown(xb_get_element(neighborhoodIdList), 'No neighborhoods found','0');
+            _qa_errors.add('location');
+          }
+          return false;
+        }
+        else
+        {
+          // normalize entry field
+          loc_field.value = data.main.name;
+          // set location Id
+          if (typeof(loc_id_field) != 'undefined' && xb_get_element(loc_id_field))
+            xb_get_element(loc_id_field).value = data.main.locationId;
+          else
+            xb_get_element('main_loc_id').value = data.main.locationId;
+          // replace text query with city name
+          if (data.main.locationType == 'neighborhood')
+          {
+            loc_field.value = data.city.name + ', ' + data.state.name;
+            if (xb_get_element('ql_override'))
+              xb_get_element('ql_override').value = 1;
+          }
+          // build pulldown
+          if (xb_get_element(neighborhoodIdList))
+          {
+            clear_pulldown(xb_get_element(neighborhoodIdList), 'Any neighborhood','0');
+            var ct = 0;
+            if (typeof(data.neighborhoods) != 'undefined' && data.neighborhoods != null)
+            {
+              var hood_id;
+              for(hood_id in data.neighborhoods)
+              {
+                xb_get_element(neighborhoodIdList).options[++ct] = new Option(data.neighborhoods[hood_id],hood_id);
+                if (data.main.locationType == 'neighborhood' && hood_id == data.main.locationId)
+                  xb_get_element(neighborhoodIdList).options[ct].selected = true;
+              }
+            }
+            _qa_errors.remove('location');
+          }
+        }
+        xb_get_element('location_loading').value = 0;
+      }
+    }
+  // Clear out field before we send, so we don't get previous location
+  if (typeof(loc_id_field) != 'undefined' && xb_get_element(loc_id_field))
+    xb_get_element(loc_id_field).value = 0;
+  http.send(null);
+
+  // We track when we've got on a location lookup going out
+  // as we don't submit a form 'til it returns in some cases. (cf., bug 5870)
+  xb_get_element('location_loading').value = 1;
+}
+// looks up url for a given location
+function q_location_url(frm)
+{
+  // hide error field
+  var er = xb_get_element('loc_search_status');
+  er.className = '';
+  er.innerHTML = '&nbsp;';
+  // look up
+  var ajax = new QAjax();
+  ajax.set_script_info( {'script':'q_answer_url.php','method':'post','output':'xml'} );
+  ajax.set_value('loc', trim(frm.new_location.value));
+  ajax.set_value('cat', frm.categoryId.value);
+  ajax.set_callback(
+    function(xml)
+    {
+      if (xml.documentElement)
+      {
+        var res = xml.getElementsByTagName('u')[0];
+        var url = res.getAttribute('url');
+        if (url != '')
+          location.href = url;
+        else
+        {
+          er.className = 'mbnd_qa_error_blog';
+          er.innerHTML = 'No location found.';
+        }
+      }
+      else
+      {
+        er.className = 'mbnd_qa_error_blog';
+        er.innerHTML = 'No location found.';
+      }
+    }
+  );
+  ajax.go();
+}
+// clears neighborhood pulldown
+function clear_pulldown(pulldown,def_text,def_value)
+{
+  if (!pulldown)
+    return false;
+  pulldown.options.length = 0;
+  if (def_text && def_value)
+    pulldown.options[0] = new Option(def_text,def_value);
+}
+// clears an element if its value matches 2nd param
+function clear_element_if(el, value)
+{
+  if (el && el.value && el.value == value)
+    el.value = '';
+}
+// resets an element if its value matches
+function reset_element_if(el, value)
+{
+  if (el && trim(el.value) == '')
+    el.value = value;
+}
+// clears a form
+function clear_qa_form(frm)
+{
+  var the_form;
+  the_form = xb_get_element('ask_question');
+  if (!the_form)
+    the_form = xb_get_element('answer_question_form');
+  if (!the_form)
+    return;
+  if (frm == 'signup')
+  {
+    the_form.email.value = '';
+    the_form.password.value = '';
+    the_form.name.value = '';
+    the_form.location.value = '';
+    the_form.radio_user_type[0].checked = true;
+    //the_form.cb_contact_me.checked = true;
+  }
+  else
+  {
+    the_form.log_email.value = '';
+    the_form.log_password.value = '';
+  }
+}
+// reloads the captcha on demand
+function reload_captcha(c)
+{
+  if ( ! c )
+    c = 'qa_ask';
+  xb_get_element('captcha').src=site_root+'captcha/@c='+c+'&width=100&height=40&ts='+new Date().valueOf();
+}
+function reload_answer_captcha()
+{
+  xb_get_element('captcha').src=site_root+'captcha/@c=qa_answer&width=100&height=40&ts='+new Date().valueOf();
+}
+// validate the ask-a-question form
+function validate_ask_form(frm)
+{
+  // disable btn
+  frm.submit.value = 'Please wait...';
+  frm.submit.disabled = true;
+  // validate
+  var q_title = trim(frm.questionTitle.value);
+  if (q_title.toLowerCase() == _QA_DEFAULT_FIELDS.questionTitle)
+  {
+    q_title = '';
+  }
+  var q_body = trim(frm.questionBody.value);
+  if (q_body.toLowerCase() == _QA_DEFAULT_FIELDS.questionBody)
+  {
+    q_body = '';
+  }
+  var q_captcha = '';
+  var q_loc = trim(frm.questionLocation.value);
+  var check_captcha = (typeof(frm.questionCaptcha) != 'undefined');
+  if (check_captcha)
+    q_captcha = frm.questionCaptcha.value;
+  var q_category = parseInt(frm.categoryId.value);
+  clear_error_display();
+  // remember no location if applicable
+  var loc_err = (_loc_lookup && _qa_errors.contains('location') && !is_default_location(q_loc))
+  // var loc_required = location_required(q_category);
+  // no longer required
+  var loc_required = false;
+  _qa_errors.clear();
+
+  if (q_title == '')
+    _qa_errors.add('question');
+  else if (q_title.length < 5)
+    _qa_errors.add('question_too_short');
+  else if (q_title.length > 110)
+    _qa_errors.add('question_too_long');
+
+  if (q_body != '')
+  {
+    if (q_body.length < 5)
+      _qa_errors.add('body_too_short');
+    else if (q_body.length > 1000)
+      _qa_errors.add('body_too_long');
+  }
+
+  if (loc_err)
+    _qa_errors.add('location');
+
+  if (!q_category)
+    _qa_errors.add('category');
+  // location required
+  if (loc_required && (loc_err || is_default_location(q_loc) || q_loc == ''))
+    _qa_errors.add('no_location');
+  if (check_captcha && q_captcha == '')
+    _qa_errors.add('no_captcha');
+  // user emails
+  var r_emails = new Array();
+  if (typeof(frm.elements["sp_r_email[]"]) != 'undefined') 
+  {
+    var els = frm.elements["sp_r_email[]"];
+    if (els.length)
+    {
+      for (var i = 0; i < els.length; i++)
+      {
+        r_emails[i] = trim(els[i].value);
+        if (r_emails[i].toLowerCase() != zefdef.toLowerCase() && r_emails[i] != '' && is_valid_email(r_emails[i]) != EMAIL_OK)
+        {
+          _qa_errors.add('bad_friend_email');
+          break;
+        }
+      }
+    }
+    else
+    {
+      var i = 0;
+      r_emails[i] = trim(els.value);
+      if (r_emails[i].toLowerCase() != zefdef.toLowerCase() && r_emails[i] != '' && is_valid_email(r_emails[i]) != EMAIL_OK)
+      {
+        _qa_errors.add('bad_friend_email');
+      }
+    }
+  }
+  if (!_qa_errors.is_empty())
+  {
+    build_error_display();
+    window.scroll(0,0);
+    frm.submit.value = 'SUBMIT';
+    frm.submit.disabled = false;
+    return false;
+  }
+  if (!is_default_location(q_loc) && frm.ql_override.value == 0)
+    q_location(frm.questionLocation);
+  // clear defaults
+  if (q_body == '(optional)')
+    frm.questionBody.value = '';
+  // track email alert signup
+  if(frm.questionEmail.checked)
+  {
+    o_track_email_signup('answer');
+  }
+  return true;
+}
+
+// determines if a category id has a required location
+function location_required(loc_id_c)
+{
+  return in_array(loc_id_c, _loc_req_catid);
+}
+
+
+// builds error display
+// at the top of the form +
+function build_error_display()
+{
+  // each field has its own error
+  var er;
+  xb_get_element('error_summary').innerHTML = '';
+  xb_get_element('error_summary').appendChild($$('span',_QA_ERROR_LABELS['error_summary']));
+  xb_get_element('error_summary').className = 'qa_error_summary';
+
+  _qa_errors.it_start();
+  while(er = _qa_errors.it_next_element())
+  {
+    // individual field as well
+    if (typeof(_QA_ERROR_FIELD_MAP[er]) != 'undefined' && xb_get_element(_QA_ERROR_FIELD_MAP[er]))
+    {
+      xb_get_element(_QA_ERROR_FIELD_MAP[er]).innerHTML = _QA_ERROR_LABELS[er];
+      xb_get_element(_QA_ERROR_FIELD_MAP[er]).className = 'mbnd_qa_error_blog';
+    }
+  }
+}
+// clears all errors
+function clear_error_display()
+{
+  xb_get_element('error_summary').innerHTML = '';
+  xb_get_element('error_summary').className = '';
+  for (var el in _QA_ERROR_FIELD_MAP)
+  {
+    if (xb_get_element(_QA_ERROR_FIELD_MAP[el]))
+    {
+      xb_get_element(_QA_ERROR_FIELD_MAP[el]).innerHTML = '';
+      xb_get_element(_QA_ERROR_FIELD_MAP[el]).className = '';
+    }
+  }
+}
+// validates answer form
+function validate_answer_form(frm)
+{
+  clear_answer_error_display();
+  _qa_errors.clear();
+
+  // disable btn
+  frm.submit.value = 'Please wait...';
+  frm.submit.disabled = true;
+
+  var answerBody = trim(frm.answerBody.value);
+  var answerCaptcha = typeof(frm.answerCaptcha) != 'undefined' ? trim(frm.answerCaptcha.value) : null;
+
+  if (answerBody != '')
+  {
+    if (answerBody.length < 25)
+      _qa_errors.add('answer_too_short');
+    else if (answerBody.length > 5000)
+     _qa_errors.add('answer_too_long');
+  }
+  else
+    _qa_errors.add('answer');
+  if (answerCaptcha != null && answerCaptcha == '')
+    _qa_errors.add('no_captcha');
+  if (!_qa_errors.is_empty())
+  {
+    build_answer_error_display();
+    window.scroll(0,0);
+    // enable btn
+    frm.submit.value = 'SUBMIT';
+    frm.submit.disabled = false;
+    return false;
+  }
+  if(frm.questionEmail.checked)
+  {
+    o_track_email_signup('answer');
+  }
+  return true;
+}
+// builds error panel
+function build_answer_error_display()
+{
+  // each field has its own error
+  var er;
+  // also a summary at the top
+  xb_get_element('error_summary').innerHTML = '';
+  xb_get_element('error_summary').appendChild($$('span',_QA_ERROR_LABELS['error_summary']));
+  xb_get_element('error_summary').className = 'qa_error_summary';
+
+  _qa_errors.it_start();
+  while(er = _qa_errors.it_next_element())
+  {
+    if (typeof(_ANSWER_ERROR_FIELD_MAP[er]) != 'undefined' && xb_get_element(_ANSWER_ERROR_FIELD_MAP[er]))
+    {
+      xb_get_element(_ANSWER_ERROR_FIELD_MAP[er]).innerHTML = _ANSWER_ERROR_LABELS[er];
+      xb_get_element(_ANSWER_ERROR_FIELD_MAP[er]).className = 'mbnd_qa_error_blog';
+    }
+  }
+}
+// clears errors in answer form
+function clear_answer_error_display()
+{
+  xb_get_element('error_summary').innerHTML = '';
+  xb_get_element('error_summary').className = '';
+  for (var el in _ANSWER_ERROR_FORM_FIELDS)
+  {
+    if (xb_get_element(_ANSWER_ERROR_FORM_FIELDS[el]))
+    {
+      xb_get_element(_ANSWER_ERROR_FORM_FIELDS[el]).innerHTML = '';
+      xb_get_element(_ANSWER_ERROR_FORM_FIELDS[el]).className = '';
+    }
+  }
+  for (var el in _ANSWER_ERROR_REG_FIELDS)
+  {
+    if (xb_get_element(_ANSWER_ERROR_REG_FIELDS[el]))
+    {
+      xb_get_element(_ANSWER_ERROR_REG_FIELDS[el]).innerHTML = '';
+      xb_get_element(_ANSWER_ERROR_REG_FIELDS[el]).className = '';
+    }
+  }
+  for (var el in _ANSWER_ERROR_LOGIN_FIELDS)
+  {
+    if (xb_get_element(_ANSWER_ERROR_LOGIN_FIELDS[el]))
+    {
+      xb_get_element(_ANSWER_ERROR_LOGIN_FIELDS[el]).innerHTML = '';
+      xb_get_element(_ANSWER_ERROR_LOGIN_FIELDS[el]).className = '';
+    }
+  }
+}
+// clears the answer form
+function clear_answer_form()
+{
+  xb_get_element('questionEmail').checked = true;
+  xb_get_element('answerBody').value = '';
+  xb_get_element('answerLink').value = '';
+  if (xb_get_element('answerCaptcha'))
+    xb_get_element('answerCaptcha').value = '';
+}
+// sets display to block
+function block(f)
+{
+  if (xb_get_element(f))
+    xb_get_element(f).style.display = 'block';
+}
+// cancel question form
+function doCancelQuestion()
+{
+  var conf;
+  if (trim(xb_get_element('questionTitle').value) == '' && trim(xb_get_element('questionBody').value) == '')
+    conf = true;
+  else
+    conf = confirm('Are you sure?');
+  if (conf)
+  {
+    location.href = site_root + 'voices/';
+  }
+}
+// cancel answer form
+function doCancel()
+{
+  var conf;
+  if (trim(xb_get_element('answerBody').value) == '' && trim(xb_get_element('answerLink').value) == '')
+    conf = true;
+  else
+    conf = confirm('Are you sure?');
+  if(conf)
+  {
+    hide('answer_question');
+    unhide('answer_button_container');
+    hide('mbnd_qa_answer_login_blog');
+    block('mbnd_qa_answer_regis_blog');
+    clear_answer_error_display();
+    clear_answer_form();
+  }
+}
+// vote
+function do_vote(content_type,content_id,vote_type)
+{
+  if (!is_numeric(content_id))
+    return false;
+  if (content_type != 'q' && content_type != 'a' && content_type != 'p' && content_type != 'b' && content_type != 'c')
+    return false;
+  if (typeof(vote_type)=='undefined' || (vote_type != 'n' && vote_type != 'u') || content_type == 'p')
+    vote_type = 'u';
+  var url = site_root + 'q_vote.php@vt=' + encodeURIComponent(vote_type) + '&cid=' + encodeURIComponent(content_id) + '&ct=' + encodeURIComponent(content_type);
+  var http = getHTTPObject();
+  http.open("GET", url);
+  http.onreadystatechange =
+    function()
+    {
+      if (http.readyState == 4)
+      {
+        var vc, thx;
+        eval("vc="+http.responseText);
+        var exit_code = typeof(vc.exit) != 'undefined' ? parseInt(vc.exit) : -1;
+        var stt = xb_get_element(content_type+'_'+content_id+'_status');
+        if (stt)
+          stt.innerHTML = '&nbsp;';
+        switch(exit_code)
+        {
+          case -1:
+            alert(_QA_ERROR_LABELS['default_error']);
+            break;
+          case -2:
+            if (alert_login_qa('vote'))
+            {
+              show_login(false,'login', false, {x:625,y:75});
+            }
+            break;
+          case -3:
+            var ermsg = 'Sorry--you may not vote for your own '+_content_type_def[content_type]+'!';
+            if (stt)
+              stt.innerHTML = ermsg;
+            else
+              alert(ermsg);
+            break;
+          default:
+            var vote_types = Array('u','n');
+            var status;
+            for (var vt in vote_types)
+            {
+              // update ct
+              status = xb_get_element(content_type+'_'+content_id+'_'+vote_types[vt]);
+              if (status)
+                status.innerHTML = vc[vote_types[vt]];
+              // thanks
+              thx = xb_get_element(content_type+'_'+content_id+'_'+vote_types[vt]+'_thx');
+              if (thx)
+                thx.innerHTML = vote_types[vt] == vote_type ? 'Thanks!' : '&nbsp;';
+            }
+        }
+      }
+    }
+  http.send(null);
+}
+// flag
+function do_flag(content_type,content_id,flag_type)
+{
+  if (!is_numeric(content_id))
+    return false;
+  if (typeof(content_type) == 'undefined' || typeof(_content_type_def[content_type]) == 'undefined')
+    return false;
+  if (typeof(flag_type)=='undefined' || (flag_type != 's' && flag_type != 'd' && flag_type != 'o' && flag_type != 'n' && flag_type != 'r' && flag_type != 'of'))
+    flag_type = 'r';
+  var url = site_root + 'q_flag.php@ft=' + encodeURIComponent(flag_type) + '&cid=' + encodeURIComponent(content_id) + '&ct=' + encodeURIComponent(content_type);
+  var http = getHTTPObject();
+  http.open("GET", url);
+  http.onreadystatechange =
+    function()
+    {
+      if (http.readyState == 4)
+      {
+        var vc = parseInt(http.responseText);
+        switch(vc)
+        {
+          case -1:
+            alert(_QA_ERROR_LABELS['default_error']);
+            break;
+          case -2:
+            if (alert_login_qa('flag'))
+            {
+              show_login(false,'login', false, {x:625,y:75}, '_2');
+            }
+            break;
+          default:
+            var status = xb_get_element(content_type+"_"+content_id+"_flag");
+            if (status)
+              status.innerHTML = 'Thanks!';
+        }
+        close_flag_menu();
+      }
+    }
+  http.send(null);
+}
+// displays flag menu
+function show_flag_menu(event,content_type,content_id)
+{
+  doNothing(event);
+  // if you can't set the mutex, clear that one mutex
+  if (!set_mutex(_MENU_MUTEX, 'flag_menu'))
+    close_flag_menu();
+
+  var flag_menu = new Menu('Report this '+_content_type_def[content_type],'flag_menu');
+  if (content_type == 'p')
+  {
+    flag_menu.add_item('Offensive',function(){do_flag(content_type,content_id,'of')});
+    flag_menu.add_item('Spam',function(){do_flag(content_type,content_id,'s')});
+    flag_menu.add_item('Other',function(){do_flag(content_type,content_id,'r')});
+  }
+  else
+  {
+    flag_menu.add_item('Spam',function(){do_flag(content_type,content_id,'s')});
+    flag_menu.add_item('Duplicate',function(){do_flag(content_type,content_id,'d')});
+    flag_menu.add_item('Off-topic',function(){do_flag(content_type,content_id,'o')});
+    flag_menu.add_item('Not factual',function(){do_flag(content_type,content_id,'n')});
+    flag_menu.add_item('Report this '+_content_type_def[content_type],function(){do_flag(content_type,content_id,'r')});
+  }
+
+  if (content_type == 'b' || content_type == 'c')
+    flag_menu.add_item('<a href="mailto:customersupport@trulia.com?subject=Report copyright activity to Trulia">Copyright</a>');
+
+  flag_menu.add_close();
+  flag_menu.build();
+  var coords = get_eloc(event);
+  flag_menu.position(coords.x,coords.y);
+  flag_menu.show();
+  set_mutex(_MENU_MUTEX, 'flag_menu');
+}
+
+// closes flag menu
+function close_flag_menu()
+{
+  var flag_menu = xb_get_element('flag_menu');
+  if (flag_menu)
+    flag_menu.parentNode.removeChild(flag_menu);
+  release_mutex(_MENU_MUTEX);
+}
+// numeric?
+function is_numeric(f)
+{
+  return f.match(/^[0-9-.,]+$/);
+}
+// asks if the user wants to create an account
+function alert_login_qa(action)
+{
+  var msg = 'You must be logged in to ' + action + '.\nClick OK to log in or sign up for an account--it only takes a minute!';
+  return confirm(msg);
+/*  var dialog = new ModalDialog('dlg_login','You must be logged in to ' + action + '.<br />Please log into your existing account or sign up<br />for a free '+ qpn_NAMES.mytrulia + ' account--it only takes a minute!');
+  dialog.add_button('LOG IN', function() { close_dialogs();show_login(null,'login',true); })
+  dialog.add_button('SIGN UP', function() { close_dialogs();show_login(null,'signup',true); });
+  dialog.add_cancel_button();
+  dialog.show();
+*/
+}
+// close dialogs
+function close_dialogs()
+{
+  if(typeof(e) == 'undefined')
+    var e = window.event;
+  if (e)
+    doNothing(e);
+  var dlg = xb_get_element(mutexes[_MODAL_MUTEX]);
+  if (dlg)
+    dlg.parentNode.removeChild(dlg);
+  release_mutex(_MODAL_MUTEX);
+}
+function on_change_moderation(dropdown)
+{
+  var typeSelect = xb_get_element("typeSelect");
+  var filterSelect = xb_get_element("filterSelect");
+  var typeIdx = typeSelect.selectedIndex;
+  var typeValue = typeSelect.options[typeIdx].text;
+  var filterIdx = filterSelect.selectedIndex;
+  var filterValue = filterSelect.options[filterIdx].text;
+  //var idx  = dropdown.selectedIndex;
+  //var value = dropdown.options[idx].text;
+  location.href = site_root + "qa_moderation.php@contentType=" + typeValue + "&filter=" + filterValue;
+  return true;
+}
+function show_email_popup(e)
+{
+  show_pos_menu(e, 'ea_form_top', 10, 15);
+  hide('qa_email_subscribe_status');
+  unhide('ea_form_top');
+}
+function qa_email_subscribe(sub_type)
+{
+  // sub_type == 0 means form to subscribe to questions only
+  // sub_type == 1 means form to subscribe to questions and/or answers
+  var both = (sub_type > 0);
+  hide('qa_email_subscribe_status');
+  var pageURL = site_root + "q_qa_email_subscribe.php?";
+  var answer_frequency, question_frequency, category, location, question_id, new_answer_checked, new_question_checked;
+  // collect parameters
+  answer_frequency=question_frequency="none";
+  category = xb_get_element('js_category').value;
+  location = xb_get_element('js_location').value;
+  new_question_checked = xb_get_element('alertNewQuestions').checked;
+  if (both)
+  {
+    question_id = xb_get_element('js_question_id').value;
+    new_answer_checked = xb_get_element('alertNewAnswers').checked;
+    if(new_answer_checked)
+      answer_frequency=xb_get_element('newAnswerFrequency').value;
+  }
+  else
+  {
+    question_id = null;
+    new_answer_checked = null;
+  }
+  if(new_question_checked)
+    question_frequency=xb_get_element('newQuestionFrequency').value;
+
+  var paramString ="fq="+question_frequency+"&cid="+category+"&lid="+location;
+  if (both)
+    paramString+="&fa="+answer_frequency+"&qid="+question_id;
+
+  var httpObj = getHTTPObject();
+  //alert(pageURL+paramString);
+  httpObj.open("GET", pageURL+paramString, true);
+  httpObj.onreadystatechange =
+    function()
+    {
+      if(httpObj.readyState==4)
+      {
+        var xml = httpObj.responseXML;
+        if (!xml)
+          return;
+        var xml_values = xml.documentElement.getElementsByTagName('o')[0];
+        var answerStatus = xml_values.getAttribute('as');
+        var questionStatus = xml_values.getAttribute('qs');
+
+        var status = xb_get_element('qa_email_subscribe_status');
+        if(answerStatus==4)
+        {
+          var msg = 'You must be logged in to subscribe to email alerts.\nClick OK to log in or sign up for an account--it only takes a minute!';
+          if(confirm(msg))
+          {
+            hide('ea_form_top');
+            show_login(null,'login',true);
+            return;
+          }
+                //status.innerHTML = 'Please login to subscribe.';
+        }
+        else if(questionStatus==0 && answerStatus==0)
+          status.innerHTML = 'Please select an email alert option to subscribe to.';
+        else
+        {
+          status.innerHTML = 'Settings updated successfully.';
+          if(new_answer_checked)
+          {
+            o_track_email_signup('answer');
+          }
+          if(new_question_checked)
+          {
+            o_track_email_signup('question');
+          }
+          
+        }
+
+        unhide('qa_email_subscribe_status');
+      }
+    }
+  httpObj.send(null);
+}
+//subscribe to alerts from blogs
+function blog_email_subscribe(both)
+{
+  // both == false means form to subscribe to questions only
+  // both == true means form to subscribe to questions and/or answers
+  hide('qa_blog_subscribe_status');
+  var pageURL = site_root + "q_qa_email_subscribe.php?";
+  var freq_comment, freq_post, category, location, post_id, new_comment_checked, new_post_checked;
+  // collect parameters
+  freq_comment = freq_post = "none";
+  category = xb_get_element('js_category').value;
+  location = xb_get_element('js_location').value;
+  new_post_checked = xb_get_element('alert_new_posts').checked;
+
+  if(new_post_checked)
+    freq_post = xb_get_element('new_post_frequency').value;
+
+  var paramString =""
+  paramString = "freq_post="+freq_post+"&category_id="+category+"&location_id="+location;
+
+  if (both)
+  {
+    post_id = xb_get_element('js_post_id').value;
+    new_comment_checked = xb_get_element('alert_new_comments').checked;
+    if(new_comment_checked)
+      freq_comment = xb_get_element('new_comment_frequency').value;
+
+    paramString += "&freq_comment="+freq_comment+"&post_id="+post_id;
+  }
+  else
+  {
+    post_id = null;
+    new_comment_checked = null;
+  }
+
+  var httpObj = getHTTPObject();
+  //alert(pageURL+paramString);
+  httpObj.open("GET", pageURL+paramString, true);
+  httpObj.onreadystatechange =
+    function()
+    {
+      if(httpObj.readyState==4)
+      {
+        var xml = httpObj.responseXML;
+        if (!xml)
+          return;
+        var xml_values = xml.documentElement.getElementsByTagName('o')[0];
+        var comment_status = xml_values.getAttribute('comment_subscribe');
+        var post_status    = xml_values.getAttribute('post_subscribe');
+
+        var status = xb_get_element('qa_blog_subscribe_status');
+        if(comment_status==4)
+        {
+          var msg = 'You must be logged in to subscribe to email alerts.\nClick OK to log in or sign up for an account--it only takes a minute!';
+          if(confirm(msg))
+          {
+            hide('ea_form_top');
+            show_login(null,'login',true);
+            return;
+          }
+        }
+        else if(post_status==0 && comment_status==0)
+          status.innerHTML = '';
+        else
+        {
+          status.innerHTML = 'Settings updated successfully.';
+          if(new_post_checked)
+          {
+            o_track_email_signup('blog');
+          }
+          if(new_comment_checked)
+          {
+            o_track_email_signup('comment');
+          } 
+        }
+        unhide('qa_blog_subscribe_status');
+      }
+    }
+  httpObj.send(null);
+}
+// subscribe to email alerts (simplified)
+function qa_email_quick_sub(frm, type)
+{
+  var alert_id = 'qa_email_alert_quick_status',
+      alert_xb = xb_get_element(alert_id);
+  // first, validate
+  if (parseInt(frm.uid.value) == 0 && (!frm.email || is_valid_email(frm.email.value) != EMAIL_OK))
+  {
+    bad_email_alert();
+    return false;
+  }
+  
+  if (type == 'post' && ((frm.location.value == 'Choose location' || frm.location.value == '') &&  frm.categoryId.value == ''))
+  {
+    alert("Please choose either a \'location\' or a \'category\'");
+    return false;
+  }
+  
+  if (type == 'post_and_question' && !frm.fq.checked && !frm.freq_post.checked)
+  {
+    alert_xb.innerHTML = 'Please choose to receive questions, blog posts, or both.';
+    unhide(alert_id);
+    setTimeout('hide("'+alert_id+'")', 5000);
+    return false;
+  }
+  
+  var ajax = new QAjax();
+  ajax.set_from_form(frm);
+  ajax.script = 'q_qa_email_subscribe.php';
+  ajax.output = 'xml';
+  ajax.set_callback(
+    function(xml)
+    {
+      if (xml.documentElement)
+      {
+        var xml_values = xml.documentElement.getElementsByTagName('o')[0];
+        var qs = parseInt(xml_values.getAttribute('qs'));
+        var bs = parseInt(xml_values.getAttribute('bs'));
+        if ((qs == 4 || bs == 4) && alert_login_qa('set email alerts'))
+        {
+          show_login(false,'login', false, {x:625,y:75}, '_2');
+        }
+        else
+        {
+          alert_xb.innerHTML = 'The email alert has been set. You will soon start receiving emails with the content you requested.';
+          unhide(alert_id);
+          setTimeout('hide("'+alert_id+'")', 5000);
+          if(frm.fq.checked)
+          {
+            o_track_email_signup("question");
+          }
+          if(frm.freq_post.checked)
+          {
+            o_track_email_signup("blog");
+          }
+        }
+      }
+      else
+      {
+        alert(_QA_ERROR_LABELS['default_error']);
+      }
+    }
+  );
+  ajax.go();
+  return false;
+}
+// save a question
+function save_question(qid, status_field_id)
+{
+  var ajax = new QAjax('new_voices_alert');
+  ajax.set_value('fa','none');
+  ajax.set_value('qid', qid);
+  ajax.set_value('action','saveq');
+  ajax.set_callback(
+    function(xml)
+    {
+      if (xml.documentElement)
+      {
+        var xml_values = xml.documentElement.getElementsByTagName('o')[0];
+        var answerStatus = parseInt(xml_values.getAttribute('as'));
+        switch(answerStatus)
+        {
+          case 4:
+            if (alert_login_qa('save a question'))
+            {
+              show_login(false,'login', false, {x:625,y:75}, '_2');
+            }
+            break;
+          case 0:
+          default:
+            var status = xb_get_element(status_field_id);
+            status.innerHTML = 'Saved!';
+            status.onclick = function() {};
+            status.className = 'qa_vote_thanks';
+        }
+      }
+      else
+      {
+        alert(_QA_ERROR_LABELS['default_error']);
+      }
+    }
+  );
+  ajax.go();
+}
+// remove content?
+function do_remove(event,content_type,content_id,override)
+{
+  if (content_type != 'q' && content_type != 'a' && content_type != 'c' && content_type != 'b')
+  {
+    return false;
+  }
+  if (typeof(_qa_remct_tkn) == 'undefined')
+  {
+    return false;
+  }
+  if (typeof(override) == 'undefined' || override != true)
+  {
+    if (!confirm('Are you sure you want to delete this '+_content_type_def[content_type]+'? This action cannot be undone!'))
+      return false;
+  }
+  var http = getHTTPObject();
+  var arg_str = 'tkn='+encodeURIComponent(_qa_remct_tkn)+'&cid='+encodeURIComponent(content_id)+'&ctp='+encodeURIComponent(content_type);
+  var the_url = site_root + 'q_remct.php';
+  http.open("POST", the_url, true);
+  http.setRequestHeader("Content-Type","application/x-www-form-urlencoded; charset=UTF-8");
+  http.send(arg_str);
+  http.onreadystatechange =
+    function()
+    {
+      if (http.readyState == 4)
+      {
+        var resp = parseInt(http.responseText);
+
+        switch(resp)
+        {
+          case 1:
+            if (content_type == 'b')
+            {
+              // reload the section on profile page
+              if (location.href.indexOf('/account/blog/') >= 0)
+              {
+                ProfileEditor.reload('blog_posts', false, true);
+              }
+              else
+              {
+                location.reload(true);
+              }
+            }
+            else
+            {
+              location.reload(true);
+            }
+            break;
+          case -2:
+            if (alert_login_qa('delete a '+_content_type_def[content_type]))
+            {
+              show_login(false,'login', false, {x:625,y:75}, '_2');
+            }
+            break;
+          default:
+            var _er_msg = { '-4':'Sorry--you may only delete your own '+_content_type_def[content_type]+'s.',
+                            '100':_QA_ERROR_LABELS['not_allowed'],
+                            '-1':_QA_ERROR_LABELS['default_error']};
+            if (typeof(_er_msg[resp]) != 'undefined')
+            {
+              alert(_er_msg[resp]);
+            }
+            else
+            {
+              alert(_er_msg['-1']);
+            }
+        }
+      }
+    }
+}
+function is_default_location(loc)
+{
+  return sanitize_input(loc).toLowerCase() == sanitize_input(zsbdef).toLowerCase();
+}
+function choose_best_answer(answer_id)
+{
+  var pageURL = site_root + "q_qa_choose_best_answer.php?";
+  var paramString ="aid="+answer_id;
+  var httpObj = getHTTPObject();
+  httpObj.open("GET", pageURL+paramString, true);
+  httpObj.onreadystatechange =
+    function()
+    {
+      if(httpObj.readyState==4)
+      {
+        hide('qa_first_answer_label_'+answer_id);
+        unhide('qa_best_answer_label_'+answer_id);
+        // remove choose best answer
+        var choosers = get_ids_with_prefix('div','chba_');
+        for (var j = 0; j < choosers.length; ++j)
+        {
+          var el = xb_get_element(choosers[j]);
+          el.parentNode.removeChild(el);
+        }
+      }
+    }
+  httpObj.send(null);
+}
+function submit_leaderboard_form()
+{
+  document.leaderboard_form.submit();
+}
+/**
+  menu class
+*/
+// constructor
+function Menu(title,mid)
+{
+  this.title = title;
+  this.menu_id = mid;
+  this.container = $$(mid+'_container');
+  this.x = 0;
+  this.y = 0;
+  this.items = new Array();
+  this.close = false;
+}
+// adds an item to the menu
+Menu.prototype.add_item = function(text,action)
+{
+  this.items.push({'text':text,'action':action});
+}
+// adds a close button (default: none)
+Menu.prototype.add_close = function()
+{
+  this.close = true;
+}
+// sets the menu's position
+Menu.prototype.position = function(x,y)
+{
+  this.x = x;
+  this.y = y;
+}
+// builds the menu
+Menu.prototype.build = function()
+{
+  // title
+  if (this.title != '')
+    this.container.appendChild($$('span','<strong>'+this.title+'</strong>'))
+  // build list of links
+  var list = $$('ul');
+  list.className = 'flist';
+  var item;
+  for (item in this.items)
+  {
+    var i = $$('li',this.items[item].text);
+    if (typeof(this.items[item].action)!='undefined')
+    {
+      i.className = 'pseudolink';
+      i.onclick=this.items[item].action;
+    }
+    list.appendChild(i);
+  }
+  this.container.appendChild(list);
+  // close button
+  if (this.add_close)
+  {
+    var cl = $$('p','<span class="pseudolink" onclick="close_flag_menu()">[x] Close</span>');
+    cl.className = 'tiny';
+    cl.style.textAlign = 'right';
+    this.container.appendChild(cl);
+  }
+}
+// shows the menu
+Menu.prototype.show = function()
+{
+  this.container.style.left = this.x+'px';
+  this.container.style.top = this.y+'px';
+  this.container.style.position = 'absolute';
+  this.container.style.display = 'inline';
+  this.container.className = 'menu_contents';
+  this.container.id = this.menu_id;
+  document.body.appendChild(this.container);
+}
+
+// ModalDialog class
+function ModalDialog(id, text)
+{
+  this.id = id;
+  this.text = text;
+  this.buttons = new Array();
+}
+ModalDialog.prototype.add_button = function(text,action)
+{
+  this.buttons.push({'text':text,'action':action});
+}
+ModalDialog.prototype.add_cancel_button = function()
+{
+  this.add_button('CANCEL',function() { close_dialogs(); });
+}
+ModalDialog.prototype.build = function()
+{
+  this.dialog = $$('div','',this.id);
+  this.dialog.className = 'modal_dialog';
+  this.dialog.appendChild($$('p',this.text));
+  if (this.buttons.length > 0)
+  {
+    var p = $$('p');
+    p.className = 'modal_p';
+    for (var btn_index in this.buttons)
+    {
+      var btn = $$('input');
+      btn.type = 'button';
+      btn.className = (this.buttons[btn_index].text != 'CANCEL' ? 'actionbtn' : 'srchbtn') + ' modalbtn';
+      btn.value = this.buttons[btn_index].text;
+      btn.onclick = this.buttons[btn_index].action;
+      p.appendChild(btn);
+    }
+    this.dialog.appendChild(p);
+  }
+}
+ModalDialog.prototype.show = function()
+{
+  if (!set_mutex(_MODAL_MUTEX, this.id))
+    close_dialogs();
+  this.build();
+  document.body.appendChild(this.dialog);
+
+  // to avoid the box getting crushed when page is made small
+  var dim = get_object_dimensions(this.dialog.id);
+  xb_get_element(this.id).style.width = dim.width + 'px';
+
+  position_at_center(this.id,300,150);
+  set_mutex(_MODAL_MUTEX,this.id);
+}
+//****************************************************************
+// object to edit in place
+//****************************************************************
+function ToggleEdit(event,element_id)
+{
+  this.evt = event;
+  this.element_id = element_id;
+  this.element = xb_get_element(element_id);
+  this.value = xb_get_element(element_id+'_value').innerHTML;
+  this.options = { 'allow_blank':false };
+  this.add_values = new Object();
+  this.callback = function(output) { };
+  // previous content
+  this.orig_label     = xb_get_element(element_id+'_label');
+  this.orig_value     = xb_get_element(element_id+'_value');
+  this.orig_edit_btn  = xb_get_element(element_id+'_edit_btn');
+  this.orig_status    = xb_get_element(element_id+'_status');
+  this.default_container = xb_get_element(element_id+'_default_value');
+  // containers
+  this.edcont = null;
+  this.form = null;
+  // controls (edit, etc buttons)
+  this.controls = {};
+  // control bar to display the controls
+  this.control_bar = $$('div');
+  this.control_bar.className = 'clearing mar_mbnd_t10 pad_mbnd_b10';
+}
+// inline edits
+ToggleEdit.prototype.set_inline_controls = function()
+{
+  this.control_bar = $$('span');
+  this.control_bar.className = 'floatleft mar_mbnd_l10';
+}
+// sets up spellchecker
+ToggleEdit.prototype.init_spellchecker = function()
+{
+  return;
+  if (!Spellcheck || (Spellcheck && !Spellcheck.is_associated_to(this.form.text_field)))
+    Spellcheck=new SpellChecker(this.form,'text_field','sc');
+}
+// sets editor value
+ToggleEdit.prototype.set_editor_value = function(v)
+{
+  this.editor.value = v;
+  this.value = v;
+}
+// returns element id
+ToggleEdit.prototype.get_element_id = function()
+{
+  return this.element_id;
+}
+// set up select options for selects
+ToggleEdit.prototype.set_select_options = function(options)
+{
+  this.select_options = options;
+}
+// set callback function for ajax
+ToggleEdit.prototype.set_callback = function(callback)
+{
+  this.callback = callback;
+}
+// accessor
+ToggleEdit.prototype.get_value = function()
+{
+  if (this.get_option('is_textarea'))
+    return trim(strip_tags(this.editor.value.replace(/\n/g,'<br />')));
+  else
+    return trim(strip_tags(this.editor.value));
+}
+// accessor
+ToggleEdit.prototype.get_raw_value = function()
+{
+  return trim(this.editor.value);
+}
+// set_additional_values sent to ajax script
+ToggleEdit.prototype.set_additional_values = function(values)
+{
+  this.add_values = values;
+}
+// sets an option
+ToggleEdit.prototype.set_option = function(o,v)
+{
+  this.options[o] = v;
+}
+// retrieves an option
+ToggleEdit.prototype.get_option = function(o)
+{
+  if (typeof(this.options[o]) != 'undefined')
+    return this.options[o];
+  else
+    return null;
+}
+// set up the dom elements
+ToggleEdit.prototype.init = function()
+{
+  // for use when assigning functions to elements, otherwise this refers to those elements themselves, not the object
+  var _me = this;
+  // if default, clear the value
+  // can be overridden if edit has occurred
+  if (this.orig_value.innerHTML != '')
+    this.set_option('is_default', false);
+  var val = this.get_option('is_default') ? '' : this.value;
+  // build the input entry
+  if (this.get_option('is_password'))
+  {
+    this.editor = $$('input');
+    this.editor.type = 'password';
+    this.editor.size = 20;
+    this.editor.value = '';
+  }
+  else if (this.get_option('is_select'))
+  {
+    this.editor = $$('select');
+    var optindex = 0;
+    for (var i in this.select_options)
+    {
+      var opt = new Option(this.select_options[i]);
+      if (this.orig_value && (this.orig_value.innerHTML == this.select_options[i] || this.orig_value.innerHTML == i))
+        opt.selected = true;
+      this.editor.options[optindex++] = opt;
+    }
+  }
+  else if (this.get_option('is_textarea'))
+  {
+    this.editor = $$('textarea');
+    this.editor.rows = this.get_option('rows') ? this.get_option('rows') : 5;
+    this.editor.cols = this.get_option('cols') ? this.get_option('cols') : 40;
+    this.editor.value = val.replace(/\<br\s?\/?\>/gi, "\n");
+    this.editor.name = 'text_field';
+    this.editor.className = 'note_container';
+  }
+  else
+  {
+    this.editor = $$('input');
+    this.editor.type = 'text';
+    this.editor.size = this.get_option('cols') ? this.get_option('cols') : 20;
+    this.editor.value = val;
+  }
+  if (!this.get_option('no_links'))
+  {
+    // build the save button
+    //this.controls.save = $$('span','[save]');
+    this.controls.save = $$('input');
+    this.controls.save.type = 'button';
+    this.controls.save.value = 'Save';
+    //this.controls.save.className = 'pseudolink tiny';
+    this.controls.save.onclick = function() { _me.save(); };
+
+    // build the spellcheck and preview buttons
+    if (this.get_option('is_textarea'))
+    {
+      /*
+      this.controls.spellcheck = $$('span', '[spellcheck]');
+      this.controls.spellcheck.className = 'pseudolink tiny mar_mbnd_l5';
+      this.controls.spellcheck.onclick = function() { _me.spellcheck(); };
+
+      this.controls.close_spellcheck = $$('span', '[close spellchecker]');
+      this.controls.close_spellcheck.className = 'pseudolink tiny mar_mbnd_l5 hidden';
+      this.controls.close_spellcheck.onclick = function() { _me.close_spellcheck(); };
+      */
+      //this.controls.preview = $$('span', '[preview]');
+      this.controls.preview = $$('input');
+      this.controls.preview.type = 'button';
+      this.controls.preview.value = 'Preview';
+      this.controls.preview.className = 'mar_mbnd_l5';
+      this.controls.preview.onclick = function() { _me.preview(); };
+    }
+
+    // build the cancel button
+    //this.controls.cancel = $$('span','[cancel]');
+    this.controls.cancel = $$('input');
+    this.controls.cancel.type = 'button';
+    this.controls.cancel.value = 'Cancel';
+    this.controls.cancel.className = 'mar_mbnd_l5';
+    this.controls.cancel.onclick = function() { _me.cancel(); };
+
+  }
+  // build the label
+  if (this.orig_label)
+  {
+    this.label = $$('span');
+    this.label.innerHTML = this.orig_label.innerHTML;
+    this.label.className = this.orig_label.className;
+  }
+  else
+    this.label = null;
+}
+// builds the editor
+ToggleEdit.prototype.show = function()
+{
+  this.init();
+  // hide the static elements
+  if (this.orig_label)
+    hide(this.orig_label.id);
+  hide(this.default_container);
+  hide(this.orig_value.id);
+  add_class(this.orig_edit_btn, 'hidden');
+  this.clear_status();
+  // show the editor
+  if (this.label)
+    this.element.parentNode.appendChild(this.label);
+
+  // form
+  this.form = $$('form');
+  this.form.onsubmit = function() { return false; }
+  // hidden values in form
+  var tfc = $$('input');
+  tfc.type = 'hidden';
+  tfc.name = 'text_field_corrected';
+  tfc.value = '';
+  this.form.appendChild(tfc);
+  var ovrd = $$('input');
+  ovrd.type = 'hidden';
+  ovrd.name = 'override';
+  ovrd.value = 0;
+  this.form.appendChild(ovrd);
+
+  // editor in a container
+  this.edcont = $$('div');
+  this.edcont.className = 'clearing';
+  this.edcont.appendChild(this.editor);
+
+  this.form.appendChild(this.edcont);
+  this.element.parentNode.appendChild(this.form);
+
+  // set up the spellchecker and preview
+  if (this.get_option('is_textarea'))
+  {
+    // add a preview to the element
+    this.preview_pane = $$('div');
+    this.preview_pane.className = 'clearing hidden';
+    this.element.parentNode.appendChild(this.preview_pane);
+    // set up the spellchecker
+    //this.init_spellchecker();
+  }
+  //this.element.parentNode.appendChild(this.edcont);
+
+  if (!this.get_option('no_links'))
+  {
+    //if (this.get_option('inline'))
+      //this.set_inline_controls();
+    // add control bar
+    for (var btn in this.controls)
+      this.control_bar.appendChild(this.controls[btn]);
+    this.form.parentNode.appendChild(this.control_bar);
+  }
+  this.editor.focus();
+}
+// destructor, cleans up memory leaks?
+ToggleEdit.prototype.destroy = function()
+{
+  // remove editor
+  if (this.label && this.element.parentNode)
+    this.element.parentNode.removeChild(this.label);
+  //this.element.parentNode.removeChild(this.editor.parentNode);
+  this.element.parentNode.removeChild(this.form);
+  if (!this.get_option('no_links'))
+  {
+    for (var btn in this.controls)
+      this.control_bar.removeChild(this.controls[btn]);
+  }
+  if (this.preview_pane)
+    this.preview_pane.parentNode.removeChild(this.preview_pane);
+  this.element.parentNode.removeChild(this.control_bar);
+  this._me = null;
+}
+// cancel the edit
+ToggleEdit.prototype.cancel = function()
+{
+  // unhide original
+  if (this.orig_label)
+    unhide(this.orig_label.id);
+  unhide(this.orig_value.id);
+  remove_class(this.orig_edit_btn, 'hidden');
+  unhide(this.orig_status.id);
+  if (this.get_value()== '' && this.default_container)
+    unhide(this.default_container);
+  this.destroy();
+}
+// saves the info
+ToggleEdit.prototype.save = function()
+{
+  if (!this.get_option('allow_blank') && this.get_value() == '')
+  {
+    this.signal_error('Please enter a value.');
+    return false;
+  }
+  // spellchecked?
+  //if (this.get_option('is_textarea') && Spellcheck.is_dirty())
+    //this.editor.value = Spellcheck.get_corrected_value();
+  // do the save
+  var ajax = new QAjax(this.options.ajax_field, this.add_values);
+  ajax.set_value(this.options.ajax_field, this.get_raw_value());
+  var _callback = this.callback;
+  ajax.set_callback(_callback);
+  ajax.go();
+  // destroy
+  this.cancel();
+}
+// triggers the spellcheck
+ToggleEdit.prototype.spellcheck = function()
+{
+  return;
+  hide(this.preview_pane);
+  Spellcheck.check();
+  // hide the controls
+  add_class(this.controls.spellcheck, 'hidden');
+  remove_class(this.controls.close_spellcheck, 'hidden');
+}
+// closes the spellcheck
+ToggleEdit.prototype.close_spellcheck = function()
+{
+  this.cancel();
+}
+// displays preview
+ToggleEdit.prototype.preview = function()
+{
+  // if there's nothing, do nothing
+  if (this.get_value() == '')
+    return;
+  // sanitizes preview
+  add_class(this.controls.preview, 'hidden');
+  var _me = this;
+  var ajax = new QAjax();
+  ajax.set_script_info({'script':'q_preview_edit.php','method':'post','output':'text'});
+  ajax.set_value('value', this.editor.value);
+  ajax.set_value('rtf', 1);
+  ajax.set_callback(
+    function(output)
+    {
+      var o = '';
+      eval('o='+output);
+      if (o)
+      {
+        unhide(_me.preview_pane);
+        hide(_me.editor);
+        _me.preview_pane.innerHTML = o.value;
+      }
+    }
+  );
+  ajax.go();
+}
+// commit the changes
+ToggleEdit.prototype.commit = function(use_raw)
+{
+  // update the display value
+  if (this.get_option('is_password'))
+    this.orig_value.innerHTML = '******';
+  else if (this.get_option('is_select'))
+  {
+    this.orig_value.innerHTML = this.editor.options[this.editor.selectedIndex].value;
+  }
+  else if (typeof(use_raw) != 'undefined' && use_raw)
+    this.orig_value.innerHTML = this.get_raw_value();
+  else
+    this.orig_value.innerHTML = this.get_value();
+  // update status field
+  if (this.orig_status)
+  {
+    this.orig_status.innerHTML = 'Saved!';
+    this.orig_status.className = 'qa_editor_success';
+    unhide(this.orig_status.id);
+    var the_id = this.orig_status.id;
+    setTimeout('hide("'+the_id+'")',2500);
+  }
+  // if blank, show default
+  if (this.get_value() == '' && this.default_container)
+    unhide(this.default_container);
+}
+// signal an error
+ToggleEdit.prototype.signal_error = function(err)
+{
+  if (this.orig_status)
+  {
+    if (typeof(err) == 'undefined')
+      this.orig_status.innerHTML = _QA_ERROR_LABELS['default_error'];
+    else
+      this.orig_status.innerHTML = err;
+    this.orig_status.className = 'qa_answer_error';
+    unhide(this.orig_status.id);
+  }
+}
+// clears error
+ToggleEdit.prototype.clear_status = function()
+{
+  if (this.orig_status)
+  {
+    this.orig_status.innerHTML = '';
+    this.orig_status.className = '';
+    hide(this.orig_status.id);
+  }
+}
+// ******* end ToggleEdit ********
+
+
+// loads list of user's properties
+function load_my_saved_homes(ev)
+{
+  // get coordinates of event to place popup
+  capture_coords(ev);
+
+  // remove any existing popup
+  var popup = xb_get_element('my_saved_homes');
+
+  if (popup)
+    popup.parentNode.removeChild(popup);
+
+  // load list of saved homes
+  var ajax = new QAjax('load_my_homes',{'ts':new Date().valueOf()});
+
+  // set callback for ajax
+  ajax.set_callback(
+    function(output)
+    {
+      var box = $$('div',output,'my_saved_homes');
+      box.style.position = 'absolute';
+      box.style.left = zevt.x + 50 + 'px';
+      box.style.top = zevt.y - 120 + 'px';
+      box.className ="drop_shadow";
+      box.style.zIndex = '1600';
+      // box.style.width = '425px';
+      // box.style.height = 'auto';
+      box.style.backgroundColor = '#FFFFFF';
+      document.body.appendChild(box);
+      // var dims = get_object_dimensions('my_saved_homes');
+      // position_at_center(box, dims.width, dims.height);
+    }
+  );
+  ajax.go();
+}
+// adds a property
+function add_user_property(pid)
+{
+  // already have it
+  if (xb_get_element('up_'+pid))
+  {
+    alert('Sorry--you\'ve already added this property.');
+    return false;
+  }
+  var ajax = new QAjax('add_user_property');
+  ajax.set_value('pid', pid);
+  ajax.set_callback(
+    function(output)
+    {
+      if (output.documentElement)
+      {
+        var prop = output.documentElement.getElementsByTagName('p')[0];
+        xb_get_element('my_homes_container').innerHTML += prop.getAttribute('html');
+      }
+      else
+      {
+        alert(_QA_ERROR_LABELS['default_error']);
+      }
+    }
+  );
+  ajax.go();
+}
+// delete user property
+function delete_user_property(pid)
+{
+  var ajax = new QAjax('delete_user_property');
+  ajax.set_value('pid', pid);
+  ajax.set_callback(
+    function(output)
+    {
+       var status = parseInt(output);
+       switch(status)
+       {
+          case 1:
+            // delete property
+            var p = xb_get_element('up_'+pid);
+            if (p)
+              p.parentNode.removeChild(p);
+            break;
+          case -2:
+            if (alert_login_qa('delete a property'))
+            {
+              show_login(false,'login', false, {x:625,y:75}, '_2');
+            }
+            break;
+          case 100:
+            alert(QA_ERROR_LABELS['not_allowed']);
+            break;
+          default:
+            alert(_QA_ERROR_LABELS['default_error']);
+       }
+    }
+  );
+  ajax.go();
+}
+// *******************************************
+// support functions
+// wrapper around editor constructor
+// *******************************************
+function new_editor(event,id,aj_field,is_password,add_values,options)
+{
+  var editee;
+  if (!(editee = xb_get_element(id)))
+    return false;
+  var Editor = new ToggleEdit(event,id);
+  if (typeof(is_password) != 'undefined' && is_password)
+    Editor.set_option('is_password', true);
+  if (typeof(options) != 'undefined')
+  {
+    for (var i in options)
+    {
+      Editor.set_option(i, options[i]);
+    }
+  }
+  Editor.set_option('ajax_field', aj_field);
+  Editor.set_additional_values(add_values);
+  if (typeof(add_values['initial_value']) != 'undefined')
+    Editor.set_editor_value(add_values['initial_value']);
+  // callback function
+  // name field needs to update 2 spans
+  if (aj_field == 'n')
+  {
+    Editor.set_callback(
+      function(output)
+      {
+        output = parseInt(output);
+        if (output == 1)
+        {
+          var nv = Editor.get_value();
+          if (xb_get_element('te_name_top_value'))
+            xb_get_element('te_name_top_value').innerHTML = nv;
+          xb_get_element('te_name_value').innerHTML = nv;
+          if (xb_get_element('blogtab_my_mbnd_username'))
+          {
+            var tmpnv = nv;
+            if (tmpnv.length > 20)
+              tmpnv = tmpnv.substr(0,20);
+            xb_get_element('blogtab_my_mbnd_username').innerHTML = '&nbsp;'+tmpnv;
+          }
+          Editor.commit();
+        }
+        else
+        {
+          Editor.signal_error();
+        }
+      }
+    );
+  }
+  // location
+  else if (aj_field == 'l')
+  {
+    Editor.set_callback(
+      function(output)
+      {
+        output = parseInt(output);
+        if (output == 1)
+        {
+          // update location in 2 places
+          var nv = Editor.get_value();
+          if (xb_get_element('edit_stloc_loc_value'))
+            xb_get_element('edit_stloc_loc_value').innerHTML = nv;
+          Editor.commit();
+        }
+        else
+        {
+          Editor.signal_error();
+        }
+      }
+    );
+  }
+  // all other fields have default behavior
+  else
+  {
+    Editor.set_callback(
+      function(output)
+      {
+        var o;
+        eval("o="+output);
+        if (typeof(o.status) != 'undefined' && typeof(o.content) != 'undefined' && o.status == 1)
+        {
+          Editor.set_editor_value(o.content);
+          Editor.commit(true);
+          DOMUtils.fill_element('profile_completeness', o.completeness);
+        }
+        else if (parseInt(output) == 1)
+        {
+          Editor.commit();
+          DOMUtils.fill_element('profile_completeness', o.completeness);
+        }
+        else
+        {
+          if (typeof(o.error) != 'undefined' && o.error)
+            Editor.signal_error(o.error);
+          else
+            Editor.signal_error();
+        }
+      }
+    );
+  }
+  Editor.show();
+}
+// new toggle editor w/ select
+function new_select_editor(event,id,aj_field,options,add_values)
+{
+  var editee;
+  if (!(editee = xb_get_element(id)))
+    return false;
+  var Editor = new ToggleEdit(event,id);
+  Editor.set_option('is_select', true);
+  Editor.set_option('ajax_field', aj_field);
+  Editor.set_select_options(options);
+  Editor.set_additional_values(add_values);
+  // callback function
+  // name field needs to update 2 spans
+  Editor.set_callback(
+    function(output)
+    {
+      output = parseInt(output);
+      if (output == 1)
+      {
+        Editor.commit();
+      }
+      else
+      {
+        Editor.signal_error();
+      }
+    }
+  );
+  Editor.show();
+}
+// **************
+// PROFILE EDITOR
+// location + status editor
+// **************
+// returns a list of all the elements in the location/status editor
+function get_stloc_editor_elements(container_id)
+{
+  return {
+  'status_id':container_id+'_status',
+  'user_status_id':container_id+'_status_value',
+  'user_loc_id':container_id+'_loc_value',
+  'user_status_field_container_id':container_id+'_status_field_container',
+  'user_status_field_id':container_id+'_status_field',
+  'loc_field_container_id':container_id+'_loc_field_container',
+  'loc_field_id':container_id+'_loc_field',
+  'edit_btn_id':container_id+'_edit_btn',
+  'save_btn_id':container_id+'_save_btn',
+  'cancel_btn_id':container_id+'_cancel_btn',
+  'value_container_id':container_id+'_value_container'};
+}
+function new_stloc_editor(container_id)
+{
+  var el = get_stloc_editor_elements(container_id);
+  // hide elements
+  hide(el['value_container_id']);
+  hide(el['edit_btn_id']);
+  // reset status
+  xb_get_element(el['status_id']).innerHTML = '&nbsp;';
+  xb_get_element(el['status_id']).className = '';
+  // set edit contents
+  xb_get_element(el['loc_field_id']).value = xb_get_element(el['user_loc_id']).innerHTML;
+  // show edit boxes, save and cancel
+  unhide(el['user_status_field_container_id']);
+  unhide(el['loc_field_container_id']);
+  unhide(el['save_btn_id']);
+  unhide(el['cancel_btn_id']);
+}
+// cancel location+status editor
+function cancel_stloc_editor(container_id)
+{
+  var el = get_stloc_editor_elements(container_id);
+  // show static elements
+  unhide(el['value_container_id']);
+  // reset status
+  xb_get_element(el['status_id']).innerHTML = '&nbsp;';
+  xb_get_element(el['status_id']).className = '';
+  // hide edit elements
+  hide(el['user_status_field_container_id']);
+  hide(el['loc_field_container_id']);
+  hide(el['cancel_btn_id']);
+  hide(el['save_btn_id']);
+  unhide(el['edit_btn_id']);
+}
+// save the location+status
+function save_stloc_editor(container_id)
+{
+  var el = get_stloc_editor_elements(container_id);
+  var us = xb_get_element(el['user_status_field_id']).value;
+  var l = trim(xb_get_element(el['loc_field_id']).value);
+  var stat = xb_get_element(el['status_id']);
+  if (!us || !l)
+  {
+    stat.innerHTML = 'Your status and location may not be blank.';
+    stat.className = 'qa_answer_error';
+    xb_get_element(el['loc_field_id']).value = xb_get_element(el['user_loc_id']).innerHTML;
+    return;
+  }
+  var ajax = new QAjax('stloc');
+  ajax.set_value('cnf','1');
+  ajax.set_value('tp','stloc');
+  ajax.set_value('l', l);
+  ajax.set_value('us', us);
+  ajax.set_callback(
+    function(output)
+    {
+      if (output == 1)
+      {
+        cancel_stloc_editor(container_id);
+        stat.innerHTML = 'Saved!';
+        stat.className = 'qa_editor_success';
+        var the_id = stat.id;
+        setTimeout('hide("'+the_id+'")', 2500);
+        // set value
+        if (xb_get_element(el['user_loc_id']))
+          xb_get_element(el['user_loc_id']).innerHTML = l;
+        // also propagate to lower form
+        if (xb_get_element('te_location_value'))
+          xb_get_element('te_location_value').innerHTML = l;
+        // also set status
+        if (xb_get_element(el['user_status_id']))
+        {
+          var pulldown = xb_get_element(el['user_status_field_id']);
+          xb_get_element(el['user_status_id']).innerHTML = pulldown.options[pulldown.selectedIndex].text;
+        }
+      }
+      else
+      {
+        stat.innerHTML = _QA_ERROR_LABELS['default_error'];
+        stat.className = 'qa_answer_error';
+      }
+    }
+  );
+  ajax.go();
+}
+// ***********
+// LINK EDITOR
+// link editor
+// ***********
+function get_link_editor_elements(container_id)
+{
+  return {
+    'title_field_id':container_id+"_title",
+    'url_field_id':container_id+"_url",
+    'title_field_container_id':container_id+"_title_field_container",
+    'url_field_container_id':container_id+"_url_field_container",
+    'title_id':container_id+"_title_value",
+    'url_id':container_id+"_url_value",
+    'save_btn_id':container_id+"_save_btn",
+    'cancel_btn_id':container_id+"_cancel_btn",
+    'edit_btn_id':container_id+"_edit_btn",
+    'delete_btn_id':container_id+"_delete_btn",
+    'url_container_id':container_id+"_url_container",
+    'status_id':container_id+"_status",
+    'link_id_field_id':container_id+"_link_id"
+  };
+
+}
+function new_link_editor(container_id)
+{
+  var el = get_link_editor_elements(container_id);
+  // hide elements
+  hide(el['edit_btn_id']);
+  hide(el['title_id']);
+  hide(el['url_id']);
+  hide(el['url_container_id']);
+  xb_get_element(el['status_id']).innerHTML = '&nbsp;';
+  xb_get_element(el['status_id']).className = '';
+  // show edit boxes, save and cancel
+  unhide(el['title_field_container_id']);
+  unhide(el['url_field_container_id']);
+  unhide(el['save_btn_id']);
+  unhide(el['cancel_btn_id']);
+  unhide(el['delete_btn_id']);
+}
+// save links
+function save_link_editor(container_id, link_num)
+{
+  var el = get_link_editor_elements(container_id);
+  el['url_href_id'] = container_id+"_url_href";
+
+  var url = add_http(trim(xb_get_element(el['url_field_id']).value));
+  var title = trim(xb_get_element(el['title_field_id']).value);
+  var link_id = xb_get_element(el['link_id_field_id']).value;
+  var stat = xb_get_element(el['status_id']);
+  if (!url || !title)
+  {
+    stat.innerHTML = 'The title and URL may not be blank.';
+    stat.className = 'qa_answer_error';
+    return;
+  }
+  // save it
+  var ajax = new QAjax('my_link');
+  ajax.set_value('url', url);
+  ajax.set_value('title', title);
+  ajax.set_value('linkid', link_id);
+  ajax.set_value('lnkn', link_num);
+  ajax.set_value('cnf', '1');
+  ajax.set_value('tp', 'link');
+  ajax.set_callback(
+    function(output)
+    {
+      output = parseInt(output);
+      if (output >= 1)
+      {
+        // outputting the link id if success
+        if (link_id == 0)
+          xb_get_element(el['link_id_field_id']).value = output;
+        xb_get_element(el['title_id']).innerHTML = title;
+        xb_get_element(el['url_id']).innerHTML = url;
+        xb_get_element(el['url_href_id']).href = url;
+        cancel_link_editor(container_id);
+        stat.innerHTML = 'Saved!';
+        stat.className = 'qa_editor_success';
+        unhide(el['status_id']);
+      }
+      else
+      {
+        stat.innerHTML = _QA_ERROR_LABELS['default_error'];
+        stat.className = 'qa_answer_error';
+      }
+    }
+  );
+  ajax.go();
+}
+// delete a user's link
+function delete_user_link(container_id)
+{
+  var el = get_link_editor_elements(container_id);
+  var link_id = xb_get_element(el['link_id_field_id']).value;
+  if (link_id <= 0)
+    return;
+  if (!confirm('Are you sure you want to delete this link?'))
+    return;
+
+  var ajax = new QAjax('delete_my_link');
+  ajax.set_value('linkid', link_id);
+  ajax.set_value('cnf', '1');
+  ajax.set_value('tp', 'linkdel');
+  ajax.set_callback(
+    function(output)
+    {
+      var stat = xb_get_element(el['status_id']);
+      output = parseInt(output);
+      if (output == 1)
+      {
+        // clear out all values
+        clearValue(el['title_field_id']);
+        clearValue(el['url_field_id']);
+        clearHTML(el['url_id']);
+        clearHTML(el['title_id']);
+        clearValue(el['link_id_field_id']);
+        cancel_link_editor(container_id);
+        stat.innerHTML = 'Deleted!';
+        stat.className = 'qa_editor_success';
+      }
+      else
+      {
+        stat.innerHTML = 'Saved!';
+        stat.className = '';
+      }
+    }
+  );
+  ajax.go();
+}
+// cancel
+function cancel_link_editor(container_id)
+{
+  var el = get_link_editor_elements(container_id);
+  // clear and hide
+  xb_get_element(el['title_field_id']).value = xb_get_element(el['title_id']).innerHTML;
+  xb_get_element(el['url_field_id']).value = xb_get_element(el['url_id']).innerHTML;
+  xb_get_element(el['status_id']).innerHTML = '&nbsp;';
+  xb_get_element(el['status_id']).className = '';
+  hide(el['title_field_container_id']);
+  hide(el['url_field_container_id']);
+  hide(el['save_btn_id']);
+  hide(el['cancel_btn_id']);
+  hide(el['delete_btn_id']);
+  // show elements
+  unhide(el['edit_btn_id']);
+  unhide(el['title_id']);
+  unhide(el['url_id']);
+  unhide(el['url_container_id']);
+}
+// update contact me
+function update_can_be_contacted(cb)
+{
+  var value = (cb.checked ? 1 : 0);
+  var ajax = new QAjax('cbc',{'cnf':'1','tp':'cbc'});
+  ajax.set_value('cbc',value);
+  ajax.set_callback(
+    function(output)
+    {
+      if (output == '1')
+      {
+        var stat = xb_get_element('te_contact_status');
+        stat.innerHTML = 'Saved!';
+        stat.className = 'qa_editor_success';
+        unhide(stat.id)
+        setTimeout('hide("te_contact_status")',2500);
+      }
+    }
+  );
+  ajax.go();
+}
+// load new results
+function load_page_contents(content_type,num_pages,page,cancel_history)
+{
+  // remember what tab and page we're on, but only onclick; not if called programmatically after hash parse
+  if (typeof(cancel_history)=='undefined' || !cancel_history)
+    _history_manager.track_state({'tab':content_type,'page_num':page});
+
+  // if there's no content, don't bother
+  if (_nav_tabs_map[content_type].num_pages == 0)
+  {
+    return;
+  }
+  // load contents
+  var ajax = new QAjax('load_contents');
+  ajax.set_value('page', page);
+  ajax.set_value('ct', content_type);
+  if (typeof(_puid) != 'undefined' && _puid > 0)
+    ajax.set_value('puid', _puid);
+  ajax.set_callback(
+    function(output)
+    {
+      var data = {'data':'','paging':''};
+      eval('data='+output);
+      // update contents (if tab exists; not all pages have all the tabs)
+      if (!xb_get_element(_nav_tabs_map[content_type].tab_pane))
+      {
+        return;
+      }
+      xb_get_element(_nav_tabs_map[content_type].tab_pane).innerHTML = data.data;
+      _nav_tabs_map[content_type].cur_page = page;
+
+      // update paging
+      if (xb_get_element(content_type+'_paging_container'))
+      {
+        xb_get_element(content_type+'_paging_container').innerHTML = data.paging;
+      }
+    }
+  );
+  ajax.go();
+}
+// row highlight on voices
+function qa_row_hlt(row, state)
+{
+  if (state)
+    toggle_class(row, 'voices_result_row_hover', 'voices_result_row_nohover');
+  else
+    toggle_class(row, 'voices_result_row_nohover', 'voices_result_row_hover');
+}
+// ****************************************
+// builds popup div to contact a user
+// ****************************************
+function build_email_user_div(evt,user_id)
+{
+  if (typeof(user_id) == 'undefined')
+    return;
+
+  var the_width, the_height;
+  the_width = 335;
+  the_height = 500;
+
+  // build it
+  var box = xb_get_element('email_box');
+  close_modals_except(box);
+  if (box)
+  {
+    box.parentNode.removeChild(box);
+    box = null;
+  }
+
+  var cursor = getPosition(evt);
+  var top = (cursor.y ? cursor.y : 0) - 100;
+  var left = (cursor.x ? cursor.x : 0) + 25;
+
+  // create an email box
+  box = $$('div','','email_box');
+  box.className ="drop_shadow";
+  box.style.position = 'absolute';
+  box.style.zIndex = '1500';
+  box.style.width = the_width+'px';
+  box.style.height = 'auto';
+  box.style.top = top + 'px';
+  box.style.left = left + 'px';
+
+  document.body.appendChild(box);
+  // show_pos_menu(evt, 'email_box', , )
+  // position_at_event('email_box', the_width + 50, the_height, evt);
+  box.style.display = 'none';
+
+  var the_url = site_root + 'q_email_user.php@ruid=' + encodeURIComponent(user_id) + '&ts=' + new Date().valueOf();
+  var http = getHTTPObject();
+  http.open("GET", the_url, true);
+  http.onreadystatechange =
+    function()
+    {
+      if (http.readyState == 4)
+      {
+        // let's see what we get
+        var resp = http.responseText;
+        // must log in
+        if (resp == '-2')
+        {
+          // login
+          //alert_login_qa('contact another user');
+         if (alert_login_qa('contact a user'))
+         {
+           show_login('','login', false, {'x':625,'y':75});
+         }
+          return;
+        }
+        else
+        {
+          var box = xb_get_element('email_box');
+          if (box)
+          {
+            box.innerHTML = resp;
+            unhide(box);
+          }
+        }
+      }
+    }
+  http.send(null);
+}
+// *******************************
+// nav tab on profile page
+// *******************************
+function loadProfileNavTabs()
+{
+  var tabs = new Array('profile_tab_my_answers','profile_tab_my_questions','profile_tab_my_saved_questions');
+  for(var i=0; i<tabs.length; i++)
+  {
+    if (xb_get_element(tabs[i]))
+    {
+      var tab = xb_get_element(tabs[i]);
+      tab.onclick = function() { ProfileNavTab_Navigate(this); }
+      tab.onmouseover = function() { ProfileNavTab_Highlight(this,1,false); }
+      tab.onmouseout = function() { ProfileNavTab_Highlight(this,0,false); }
+    }
+  }
+}
+function ProfileNavTab_Navigate(obj)
+{
+  var tabs = new Array('profile_tab_my_answers','profile_tab_my_questions','profile_tab_my_saved_questions');
+  for(var i=0; i<tabs.length; i++)
+  {
+    var tab = xb_get_element(tabs[i]);
+    if (tab)
+    {
+      var current_div = xb_get_element(tabs[i] +'_content');
+      if (current_div)
+      {
+        if ( (tabs[i] == obj.id) && (current_div.style.display == 'block') )
+        {
+          return;
+        }
+        else if (tabs[i] == obj.id)
+        {
+          current_div.style.display = 'block';
+          ProfileNavTab_Highlight(obj, 2, false);
+        }
+        else
+        {
+          current_div.style.display = 'none';
+          ProfileNavTab_Highlight(tab, 0, true);
+        }
+      }
+    }
+  }
+}
+function ProfileNavTab_Highlight(obj, state, force_toggle)
+{
+  var base_class = 'results_tab';
+  var active_class = 'results_tab_active';
+  var highlight_class = 'results_tab_highlight';
+  if (obj)
+  {
+    if ((obj.className != base_class +' '+ active_class) || force_toggle )
+    {
+      if (state == 1)
+      {
+        // highlight
+        obj.className = base_class +' '+ highlight_class;
+        var icon_id = obj.id +'_icon';
+        if (xb_get_element(icon_id))
+          xb_get_element(icon_id).src = _IMAGE_SERVER + 'images/flair/'+ icon_id +'_hover.gif';
+      }
+      else if (state == 2)
+      {
+        // active
+        obj.className = base_class +' '+ active_class;
+        var icon_id = obj.id +'_icon';
+        if (xb_get_element(icon_id))
+          xb_get_element(icon_id).src = _IMAGE_SERVER + 'images/flair/'+ icon_id +'.gif';
+      }
+      else
+      {
+        obj.className = base_class;
+        var icon_id = obj.id +'_icon';
+        if (xb_get_element(icon_id))
+          xb_get_element(icon_id).src = _IMAGE_SERVER + 'images/flair/'+ icon_id +'.gif';
+      }
+    }
+  }
+}
+//////// END NAV TABS
+//////////////////////////////////////////////////////////////
+
+// paging object
+function Paging(current, num_pages, url)
+{
+  this.current = current;
+  this.num_pages = num_pages;
+  this.url = url;
+}
+
+// @param   always  whether you always return something or not
+Paging.prototype.build = function(long_string,always)
+{
+  var s = '';
+  if (typeof(always) == 'undefined')
+    var always = false;
+  if (this.num_pages < 1 && !always)
+    return '';
+  var display_pages = new Array();
+
+  // always show first and last, padding = min number of pages always showing before and after selected
+  if (!long_string)
+    var padding = 1; // short = current, one before, one after
+  else
+    var padding = 2; // long = current, two before, two after
+
+  // total number of places = (first spot + last spot = 2) + (selected spot = 1) + (2 spots for "..." = 2) + (spots before + spots after = 2 * padding)
+  var max_places = 2 + 1 + 2 + (2 * padding);
+
+  //if there are as many or less pages than there are places just make a list of all pages
+  if (this.num_pages <= max_places)
+  {
+    for (i = 1; i <= this.num_pages; ++i)
+      display_pages.push(i);
+  }
+  // if selected page is within the first page + padding pages + 1
+  // so if selected page minus padding is one off first page, aka 1 2 3 4 5 6 7 ... 90 (selected is anything before 5 if padding 2)
+  else if (this.current <= padding + 2)
+  {
+    for (var i = 1; i <= max_places - 2; ++i)
+      display_pages.push(i);
+
+    // add last page
+    display_pages.push(this.num_pages);
+  }
+  // if selected page is within the last page - padding pages - 1
+  // so if selected page plus padding is one off last page, aka 1 ... 84 85 86 87 88 89 90 (selected is anything after 86 if padding 2)
+  else if (this.current >= this.num_pages - (padding + 2))
+  {
+    // add first page
+    display_pages.push(1);
+
+    for (var i = this.num_pages - max_places + 3; i <= this.num_pages; ++i)
+      display_pages.push(i);
+  }
+  // if you need to have first page, space, padding, selected, padding, last page
+  else
+  {
+    // add first page
+    display_pages.push(1);
+
+    // add middle part
+    for (var i = this.current - padding; i <= this.current + padding; ++i)
+      display_pages.push(i);
+
+    // add last page
+    display_pages.push(this.num_pages);
+  }
+
+
+  if (display_pages.length < 2 && !always)
+    return '';
+
+  // add pages
+  var previous_page = 0;
+
+  for (var i = 0; i < display_pages.length; ++i)
+  {
+    var p = display_pages[i];
+    {
+      if (previous_page < p - 1)
+        s += "<span>...</span>";
+      s += (p == this.current ? '<span class="pg_link_cur">' + p + '</span>' : '<a href="" class="pg_link" onclick="' + this.url.replace(/%%s%%/, p) + ';return false;">' + p + '</a>');
+      previous_page = p;
+    }
+  }
+  return s;
+}
+Paging.prototype.update_prev_next_btn = function(content_type, id, btn_type, _method)
+{
+  var btn = xb_get_element(id);
+  if (!btn)
+    return;
+  var offset = (btn_type == 'next' ? 1 : -1);
+  var new_page = this.current + offset;
+  if (new_page < 1)
+  {
+    toggle_class('pg_btn_disabled', 'pg_btn');
+    new_page = 1;
+  }
+  else if (new_page > this.num_pages)
+  {
+    toggle_class('pg_btn_disabled', 'pg_btn');
+    new_page = this.num_pages;
+  }
+  else
+  {
+    toggle_class('pg_btn', 'pg_btn_disabled');
+  }
+  var _num_pages = this.num_pages;
+  btn.onclick = function() { _method(content_type,_num_pages,new_page); }
+  btn.style.display = '';
+}
+// misc utility fns
+function add_http(url)
+{
+  if (url.toLowerCase().indexOf('http://') < 0)
+    return 'http://'+url;
+  else
+    return url;
+}
+function clearHTML(id)
+{
+  if (xb_get_element(id))
+    xb_get_element(id).innerHTML = '';
+}
+function clearValue(id)
+{
+  if (xb_get_element(id))
+    xb_get_element(id).value = '';
+}
+function sanitize_input(t)
+{
+  return trim(t).replace(/[^A-Za-z0-9\.\-\_\'\s\,]/g, '');
+}
+function strip_tags(s)
+{
+  return s.replace(/<\s*\/?[^>]+>/g, '');
+}
+
+function toggle_required (the_form)
+{
+  var e = xb_get_element('o_or_r');
+  if (location_required(the_form.value))
+  {
+    e.innerHTML = "(required)";
+  }
+  else
+  {
+    e.innerHTML = "(optional)";
+  }
+}
+function toggle_more_categories()
+{
+  var e = xb_get_element('question_category_more');
+  var l = xb_get_element('toggle_more_block');
+  if (e.style.display == "none")
+  {
+    e.style.display = 'block';
+    l.style.display = 'none';
+  }
+  else
+  {
+    e.style.display = 'none';
+    l.style.display = 'block';
+  }
+}
+// hides user stats
+function qa_hide_stats()
+{
+  clearTimeout(_profile_stats);
+  if (is_mutex_free(_STATS_LAYER_MUTEX))
+    return;
+  var div = xb_get_element(mutexes[_STATS_LAYER_MUTEX]);
+  if (div)
+    div.className = div.className + ' hidden';
+  release_mutex(_STATS_LAYER_MUTEX);
+}
+// shows user stats
+function qa_load_stats(divid, user_id, big)
+{
+  qa_hide_stats();
+  var the_div = xb_get_element(divid);
+  if (!the_div)
+    return;
+  var show_class = 'profile_layer';
+  if (typeof(big) != 'undefined' && big == true)
+    show_class = 'big_profile_layer';
+  set_mutex(_STATS_LAYER_MUTEX, divid);
+  // don't requery if you already have it
+  if (the_div.innerHTML != '')
+  {
+    the_div.className = show_class;
+    return;
+  }
+  // load on demand
+  var ajax = new QAjax();
+  ajax.set_value('user_id', user_id);
+  ajax.set_script_info( {'script':'q_voices_user_stats.php','method':'get','output':'text'} );
+  ajax.set_callback(
+    function(output)
+    {
+      the_div.innerHTML = output;
+      the_div.className = show_class;
+    }
+  );
+  ajax.go();
+}
+// history manager utility classes
+// parses hash and decides what to do for specific pages
+// should implement
+// handle_hash() (to update the page accordingly)
+// parse_hash() (to get the relevant information from the hash in the URL)
+// build_hash(args) (to update the hash in the URL)
+//function HashHandler()
+//{}
+//HashHandler.prototype.handle_hash = function() {};
+//HashHandler.prototype.build_hash = function(args) {};
+//HashHandler.prototype.parse_hash= function(args) {};
+// class to handle the hash on user profile page
+function ProfileHashHandler()
+{}
+// the hash is ({a,q,sq,pq}-{page};)+
+ProfileHashHandler.prototype.parse_hash = function()
+{
+  var hash = window.location.hash;
+  if (hash == '')
+    return null;
+  var hash_sections = hash.substring(1).split(';');
+  var ret_object = new Object();
+  for (var i = 0; i < hash_sections.length; ++i)
+  {
+    var hash_parts = hash_sections[i].split('-',2);
+    if (typeof(hash_parts[0]) != 'undefined' &&
+        typeof(hash_parts[1]) != 'undefined' &&
+        typeof(_nav_tab_content_types[hash_parts[0]]) != 'undefined' &&
+        _nav_tab_content_types[hash_parts[0]] == true &&
+        parseInt(hash_parts[1]) > 0)
+    {
+      ret_object[i] = {'content_type':hash_parts[0],'page_num':parseInt(hash_parts[1])};
+    }
+  }
+  return ret_object;
+}
+// handle the hash for the user profile page
+// the hash is ({a,q,sq,pq}-{page};)+
+// first part is tab, second part is page number
+ProfileHashHandler.prototype.handle_hash = function()
+{
+  var hash_parts = this.parse_hash();
+  if (!hash_parts)
+    return;
+  var the_tab = null;
+  for (var i in hash_parts)
+  {
+    // remember which tab
+    if (!the_tab)
+      the_tab = hash_parts[i];
+    // load the contents into the tab
+    load_page_contents(hash_parts[i].content_type,
+                       _nav_tabs_map[hash_parts[i].content_type].num_pages,
+                       hash_parts[i].page_num,
+                       true); // do not call track_state when loading tab contents, else the hash gets reversed
+  }
+  if (the_tab)
+  {
+    // now focus the tab at the top of the hash
+    if (xb_get_element(_nav_tabs_map[the_tab.content_type].tab))
+      NavTab_Navigate(xb_get_element(_nav_tabs_map[the_tab.content_type].tab));
+    return;
+  }
+}
+// builds the hash for user profile
+ProfileHashHandler.prototype.build_hash = function(args)
+{
+  if (typeof(args.tab) == 'undefined')
+    args.tab = 'q';
+  if (typeof(args.page_num) == 'undefined' || parseInt(args.page_num) < 1)
+    args.page_num = 1;
+  var the_hash = '';
+  // hash is tab-page;tab-page;tab-page
+  // where the first tab is the active tab
+  the_hash = args.tab+'-'+args.page_num + ';';
+  // append all the others (only if that tab is on the page)
+  for (var i in _nav_tabs_map)
+  {
+    if (i == args.tab || !_nav_tab_content_types[i])
+      continue;
+    the_hash += i + '-' + _nav_tabs_map[i].cur_page + ';';
+  }
+  window.location.hash = '#'+the_hash.substring(0, the_hash.length-1); // trim the trailing ;
+}
+// URL history manager
+function URLHistoryManager(hash_handler)
+{
+  this.hash_handler = hash_handler;
+}
+// track page state
+URLHistoryManager.prototype.track_state = function(args)
+{
+  this.hash_handler.build_hash(args);
+}
+// update the page based on the onload function
+URLHistoryManager.prototype.update_page = function()
+{
+  this.hash_handler.handle_hash();
+}
+// For /voices/
+// compliments of: http://www.alistapart.com/articles/horizdropdowns/
+addLoadEvent(function() {
+  if (document.all && document.getElementById) {
+    var ids = Array('mbnd_hf_qa_blog', 'mbnd_hf_blogs_blog');
+    for (i=0; i<ids.length; i++) {
+      node = document.getElementById(ids[i]);
+      if (node) {
+        node.onmouseover=function() {
+          this.className += " ie6rox";
+        }
+        node.onmouseout=function() {
+          this.className = this.className.replace(" ie6rox", "");
+        }
+      }
+    }
+  }
+});

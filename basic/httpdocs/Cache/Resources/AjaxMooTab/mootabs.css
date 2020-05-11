@@ -1,0 +1,32 @@
+﻿.mootabs_title {
+	list-style-image: none;
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+	height: 25px;	
+}
+
+.mootabs_title li {
+	float: left; padding: 3px 8px 0px 8px;
+	margin-right: 2px; cursor: pointer; color: #fff; text-align:center;
+	font-family:Arial, Tahoma; font-size: 12px; width:100px; height: 22px;
+	background-image:url(tab_blueheavy.gif);
+}
+
+.mootabs_title li.active 
+{
+    font-weight:bold; color:Yellow; font-size:13px;
+	background-image:url(tab_orange.gif);
+}
+
+.mootabs_panel {
+	display: none; position: relative; height:auto;
+	width: 100%; font-family:Arial, Tahoma, Verdana;
+	clear: both; color:Black; text-align:left;
+	border:solid 1px Orange; background-color:White;
+}
+
+.mootabs_panel.active {
+	background-color:White;
+	display: block;	
+}

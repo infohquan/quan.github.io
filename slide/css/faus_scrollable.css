@@ -1,0 +1,143 @@
+
+#capa_banner{
+	position:relative;
+	width:100%;
+	height:600px;
+	float:left;
+	z-index:1000;
+	top:0px;}
+
+#capa_banner .anterior{
+	position:absolute;
+	top:0;
+	left:0;
+	width:57px;
+	height:600px;
+	float:left;
+	z-index:1000;}
+
+#capa_banner .anterior a{
+	background:url(http://bsm.vn/hongquan/slide/images/scr_ant.png) no-repeat left center;
+	width:57px;
+	height:600px;
+	
+	display:block;
+	/*float:left;*/
+	border:none;
+	outline:none;
+	z-index:1000;}
+
+#capa_banner .anterior a span{
+	display:none;}
+
+#capa_banner .anterior a:hover{
+	background:url(http://bsm.vn/hongquan/slide/images/scr_ant_on.png) no-repeat left center;}
+
+#capa_banner .siguiente{
+	position:absolute;
+	top:0;
+	right:0;
+	width:57px;
+	height:600px;
+	float:left;
+	z-index:1000;}
+
+#capa_banner .siguiente a{
+	background:url(http://bsm.vn/hongquan/slide/images/scr_sig.png) no-repeat right center;
+	width:57px;
+	height:600px;
+	display:block;
+	/*float:left;*/
+	border:none;
+	outline:none;
+	z-index:1000;}
+
+#capa_banner .siguiente a span{
+	display:none;}
+	
+#capa_banner .siguiente a:hover{
+	background:url(http://bsm.vn/hongquan/slide/images/scr_sig_on.png) no-repeat right center;}	
+
+/*
+	root element for the scrollable.
+	when scrolling occurs this element stays still.
+*/
+.banners {
+	/* required settings */
+	position:relative;
+	margin:0 auto;
+	/*overflow:hidden;*/
+	width:1000px;
+	height:600px;
+	display:block;
+	z-index:995;
+	/* custom decorations */
+	border:1px solid #444;
+}
+	
+/*.bordes{
+	width:100%;height:600px;
+	display:block;
+	position:absolute;
+	top:0;left:0;
+	z-index:994;
+	background:url(http://bsm.vn/hongquan/slide/images/scr_mascara.png) repeat-y top center;
+	}*/
+	
+.mascara_izq{
+	width:50%;height:600px;
+	position:absolute;
+	top:0;left:-480px;
+	background:#f90;
+	z-index:998;
+	background:url(http://bsm.vn/hongquan/slide/images/scr_mascara_dot.png);
+	}
+	
+.mascara_der{
+	width:50%;height:600px;
+	position:absolute;
+	top:0;right:-480px;
+	background:#f90;
+	z-index:998;
+	background:url(http://bsm.vn/hongquan/slide/images/scr_mascara_dot.png);
+	}
+
+
+.banners .items {
+	/* this cannot be too large */
+	width:20000em;
+	position:absolute;
+	clear:both;
+}
+
+.banners .items div {
+	float:left;
+	width:1000px;
+}
+
+
+.banner{
+	position:relative;}
+
+/*.banner .banner_bordes{
+	width:790px;height:293px;
+	display:block;
+	position:absolute;
+	top:0;left:0;
+	background:url(http://bsm.vn/hongquan/slide/images/banner_bordes.gif) no-repeat left center;
+	}*/
+
+/* single scrollable item */
+.banners img {
+	float:left;
+	margin:0;
+	width:1000px;
+	height:600px;
+}
+
+/* active item */
+.banners .active {
+	border:2px solid #000;
+	position:relative;
+	cursor:default;
+}

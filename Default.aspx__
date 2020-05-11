@@ -1,0 +1,39 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+<%@ Register Src="~/CMS/Display/Utilities/FlashIndex/FlashIndex.ascx" TagName="FlashIndex" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/Index/NewArticleBox.ascx" TagName="NewArticleBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/Index/SlideArticle.ascx" TagName="SlideArticle" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/MessageBoard.ascx" TagName="MessageBoardArticle" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/TopProducts/TopHotProductWithSearch.ascx" TagName="TopHotProductWithSearch" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerHorizontalMarquee.ascx" TagName="CustomerHorizontalMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Others/WebPakage.ascx" TagName="WebPakage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Video/VideoBox.ascx" TagName="VideoBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/Default/AboutUsBox.ascx" TagName="AboutUsBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SearchBox/SearchBox2.ascx" TagName="SearchBox2" TagPrefix="web" %>
+
+<%@ Import Namespace="Khavi.Web.Assistant" %>
+
+<asp:Content ContentPlaceHolderID="MainContent" Runat="Server">
+    <web:SearchBox2 ID="SearchBox2" runat="server" />
+      <div id="slider" class="nivoSlider">
+                <img src="images/falsh/1.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh " />
+				<img src="images/falsh/2.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+                <img src="images/falsh/3.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+				<img src="images/falsh/4.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+                <img src="images/falsh/5.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+				<img src="images/falsh/6.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+                <img src="images/falsh/7.jpg" width="570" height="230" alt="Ảnh minh họa" title="Tân Đinh" />
+			 
+       </div> 
+
+	    <script type="text/javascript">
+	        $(window).load(function () {
+	            $('#slider').nivoSlider();
+	        }); 
+		</script>
+    <div class="clear"></div>
+     <web:NewArticleBox ID="NewArticleBox" runat="server" ControlCssClass="defaultbox" IsAgentCat="true" ContentType="news" Subject="" nTop="8" ImageWidthItem1="110" ImageHeightItem1="95" IsViewDate="false" />
+    
+    <web:TopHotProductWithSearch ID="TopHotProductWithSearch" runat="server" ControlCssClass="defaultbox" IsAgentCat="true" nTop="6" ImageWidth="90" ImageHeight="100" />
+   
+</asp:Content>
+

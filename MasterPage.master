@@ -1,0 +1,461 @@
+﻿
+﻿
+
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+<%@ Register Src="~/CMS/Display/Header.ascx" TagName="Header" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Footer.ascx" TagName="Footer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/VerticalMenu/CatalogMenu.ascx" TagName="ProductCatalogMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/TopProducts/TopHotProductMarquee.ascx" TagName="TopHotProductMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarquee.ascx" TagName="TopNewArticleMarquee" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleMarqueeNoImage.ascx" TagName="TopNewArticleMarqueeNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewArticleNoImage.ascx" TagName="TopNewArticleNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/TopArticles/TopNewPromotionNoImage.ascx" TagName="TopNewPromotionNoImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Templates/Articles/UtilControls/VMenu/VerticalArticleMenu.ascx" TagName="VerticalArticleMenu" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SupportOnline/SupportOnline.ascx" TagName="SupportOnline" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/Ads.ascx" TagName="Ads" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/AdsMarqueeUp.ascx" TagName="AdsMarqueeUp" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Advertisement/WebLinksPro.ascx" TagName="WebLinksPro" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Gallery/GallerySlide.ascx" TagName="GallerySlide" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Counter/Counter.ascx" TagName="Counter" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandard.ascx" TagName="MenuHorizontalStandard" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Menu/HorizontalStandard/HorizontalStandardImage.ascx" TagName="MenuHorizontalStandardImage" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/SearchBox/SearchBox.ascx" TagName="SearchBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Video/VideoBox.ascx" TagName="VideoBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerHorizontalMarquee.ascx" TagName="Customer" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/Customer/CustomerSlideBox.ascx" TagName="CustomerSlideBox" TagPrefix="web" %>
+<%@ Register Src="~/CMS/Display/Utilities/FlashIndex/FlashIndex.ascx" TagName="FlashIndex" TagPrefix="web" %>
+
+<%@ Register Src="~/CMS/Display/Templates/Products/UtilControls/TopProducts/TopHotProductWithSearch.ascx" TagName="TopHotProductWithSearch" TagPrefix="web" %>
+<%@ Import Namespace="Khavi.Web.Assistant" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+ 
+<div><iframe  src="/slide.html"  align="top" frameborder="0" height="680" scrolling="no" width="100%"></iframe></div>
+<center><iframe src="https://www.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=99&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=infohquan%40gmail.com&amp;color=%235229A3&amp;ctz=Asia%2FSaigon" style=" border-width:0 " width="1000" height="99" frameborder="0" scrolling="no"></iframe></center>
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    
+    <meta http-equiv="Content-Type" content="text/html;" />
+    <title>Welcome to Hong Quan Website</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="common/styles/Paging.css" />
+    <link href="images/favicon.ico.gif" rel="shortcut icon" type="image/x-icon" />
+    <script src="scripts/effect.js" type="text/javascript"></script>
+
+     <!-- include the Tools -->
+    <script src="scripts/jquery.tools.min.js" type="text/javascript"></script>
+    <link href="Styles/nivo-slider.css" rel="stylesheet" type="text/css" />
+    <script src="scripts/jquery.nivo.slider.pack.js" type="text/javascript"></script>
+    <!-- standalone page styling (can be removed) -->
+    <link rel="stylesheet" type="text/css" href="Styles/standalone.css"/>
+    <link href="Styles/CSSTooltip.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+    var domain = 'http://suaviet.com';
+    </script>
+    
+    <script type="text/javascript" src="scripts/main.js"></script>
+    <script type="text/javascript" src="common/scripts/XmlLanguage.js"></script>
+    <script type="text/javascript" src="Cache/Resources/jquerymenu/jquerycssmenu.js"></script>
+    <link rel="stylesheet" type="text/css" href="Cache/Resources/jquerymenu/jquerycssmenu.css" />
+    <link type="text/css" rel="stylesheet" href="Cache/Resources/HighSlide/highslide.css" />
+    <script type="text/javascript" src="Cache/Resources/HighSlide/highslide-full.js"></script>
+
+<link href="http://hongquan.bsm.vn/23_horizontal_red_grey/css/www_rate_calc_frame.css" rel="stylesheet" title="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://w.sharethis.com/gallery/shareegg/shareegg.js"></script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "2a9ee597-2b68-4218-9b1b-61a44e0a2047", doNotHash: false, doNotCopy: false, hashAddressBar: false, onhover:false});</script>
+<link media="screen" type="text/css" rel="stylesheet" href="http://w.sharethis.com/gallery/shareegg/shareegg.css"></link>
+
+
+    <script type="text/javascript">
+        hs.graphicsDir = 'Cache/Resources/HighSlide/graphics/';
+        hs.align = 'center';
+        hs.transitions = ['expand', 'crossfade'];
+        hs.outlineType = 'rounded-white';
+        hs.fadeInOut = true;
+        //hs.dimmingOpacity = 0.75;
+
+        // Add the controlbar
+        hs.addSlideshow({
+            //slideshowGroup: 'group1',
+            interval: 5000,
+            repeat: false,
+            useControls: true,
+            fixedControls: 'fit',
+            overlayOptions: {
+                opacity: .75,
+                position: 'bottom center',
+                hideOnMouseOut: true
+            }
+        });
+    </script>
+    
+    <script type="text/javascript" src="common/scripts/jquery.cycle.js"></script>
+    <script type="text/javascript" src="scripts/imgtooltip.js"></script>    
+    
+    <link type="text/css" rel="Stylesheet" href="Styles/menutopsmooth.css" />    
+    <script type="text/javascript" src="Cache/Resources/smoothmenu/ddsmoothmenu.js"></script>    
+
+<script type="text/javascript">
+function showHideGB(){
+var gb = document.getElementById("gb");
+var w = gb.offsetWidth;
+gb.opened ? moveGB(0, 30-w) : moveGB(20-w, 0);
+gb.opened = !gb.opened;
+}
+function moveGB(x0, xf){
+var gb = document.getElementById("gb");
+var dx = Math.abs(x0-xf) > 10 ? 5 : 1;
+var dir = xf>x0 ? 1 : -1;
+var x = x0 + dx * dir;
+gb.style.right = x.toString() + "px";
+if(x0!=xf){setTimeout("moveGB("+x+", "+xf+")", 10);}
+}
+</script>
+<style type="text/css">
+#gb{
+position:fixed;
+top:150px;
+z-index:+1000;
+}
+* html #gb{position:relative;}
+.gbtab{
+height:100px;
+width:30px;
+float:left;
+cursor:pointer;
+background:url('/images/tabs.gif') no-repeat;
+}
+.gbcontent{
+float:left;
+border:2px solid #FF0F0F;
+background:#fff;
+padding:2px;
+}
+</style>
+
+
+
+
+</head>
+
+<%--<script>
+
+/*Random background color- by javascriptkit.com
+Visit JavaScript Kit (http://javascriptkit.com) for script
+Credit must stay intact for use*/
+
+//Enter list of bgcolors:
+var bgcolorlist=new Array("#f9dbf5", "#faf5d7", "#f6ffe2", "#ffdbef", "#daecfe", "#feecec", "#FFFFFF", "#ffffe1")
+
+document.body.style.background=bgcolorlist[Math.floor(Math.random()*bgcolorlist.length)]
+</script>--%>
+
+
+<center><body style="background:url(images/---bg2.jpg) repeat-x fixed center top #ffffff; "></center>
+
+    <form id="frmWeb" runat="server">
+    <div style="width:100%; float:center;">
+    <div class="KhaviWrapper">            
+    <div class="KhaviTop"></div>
+    <div class="KhaviMiddle">
+ <div style="background-color: white;">
+  
+  <div class="page">                       
+    <web:Header ID="Header" runat="server" />
+
+	<%--<div id="slider" class="nivoSlider">
+		
+                <img src="images/falsh/1.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/2.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/3.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/4.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/5.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/6.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/7.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                		<img src="images/falsh/8.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/9.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/10.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+  				<img src="images/falsh/11.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/12.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/13.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/14.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/15.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/16.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/17.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/18.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                		<img src="images/falsh/19.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/20.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/21.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/22.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/23.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/24.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/25.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/26.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/27.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/28.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/29.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                		<img src="images/falsh/30.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/31.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/32.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/33.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/34.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/35.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/36.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/37.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/38.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				<img src="images/falsh/39.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                <img src="images/falsh/40.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+                		<img src="images/falsh/41.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+		<img src="images/falsh/42.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan " />
+				<img src="images/falsh/43.jpg" width="1000" height="320" alt="Ảnh minh họa" title="Hong Quan" />
+				
+		</div> 
+
+	    <script type="text/javascript">
+	        $(window).load(function () {
+	            $('#slider').nivoSlider();
+	        }); 
+		</script>--%>
+
+
+
+<p style="text-align: center;"><img height="23" width="1000" src="/Cache/Uploads/shadow_big.png" alt="" /></p>
+
+
+
+
+<%--<marquee scrollamount=3 direction=left scrolldelay=60 onmouseover='this.stop()' onmouseout='this.start()'><B>I know the past isn’t the past with you, it’s just an empty wave , it’ll dry when the sun shines. And I know I am just a long wave to you too, it’ll evaporate and fly away in your heart when another man come and replace me and warm you…Sunshine is still bright in the morning often and the afternoon is nice in blue sunset… but there’s  something different … and I know …. I lost you already , It’s truth, isn’t it ? What can I do as the days pass by, the sun still rises, birds still sing,the wind still blows, the clouds still drift but I already lost you in my life. You don’t belong to me now, just in my dream you belong to another, even in the morning you don’t get up with me. Beside you, he share many things. What can I do when the love I gave is still there, as if you never hurt me. What can I do when I still miss you so much . What can I do … ? What must I do ..? I can’t pull myself back to the old times, and I hope he can’t lose you like me, because he loves you so much, so when he loses you he’ll be like me. It’s lonely in the windy season, and shivering in the coming winter, he’ll be very sad when you’re not there to warm him, he’ll weep missing you … How can I do that ? With you I am not the present but I hope you miss me .. Remember me as a memory, where you and me sit side by side. Where there are tears, I cry because of happiness unnamed. The place we live together and now it became a memory .. the past to insipid unnamed.. However I’ll still loving you, love you in the dreamland and this life, love you the same me unknow you before… I trully lost you, didn’t  I ?....                  (Copy right by Hong Quan) </B></marquee>
+--%>
+
+
+<%--<center> 
+
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+
+
+<style type="text/css">
+<!--
+.style1 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+}
+-->
+</style>
+</head>  
+
+<body>  
+
+<body bgcolor=white>  
+          
+        <script language="javascript" type="text/javascript">  
+
+        <!-- Hide script from old browsers  
+                  
+                dayName = new Array ("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")  
+                monName = new Array ("January","February","March","April","May","June","July","August","September","October","November","December")  
+                  
+                now = new Date  
+          
+                document.write("<font color=RED size=3></b>Today is " +now.getHours()+ " hour " +now.getMinutes()+ " minute " +now.getSeconds()+ " second - " 
+                +dayName[now.getDay()]+ " " +now.getDate()+ " " +monName[now.getMonth()]+ ", " +now.getFullYear()+ ".</b></font>")  
+                  
+        //Ending hiding script from old browsers -->  
+        </Script>       
+        <br>
+        
+</body>  </center> --%>
+
+    <div class="page-body">
+                        
+
+ 
+
+
+
+      <div class="page-sidebar">
+
+
+
+
+
+<table height="40" cellspacing="1" cellpadding="1" border="0" width="196">
+    <tbody>
+        <tr>
+            <td><img height="24" width="19" src="/Cache/Uploads/lock.png" alt="" /></td>
+            <td>
+            <p style="text-align: left;"><span style="color: rgb(255, 0, 0);"><span style="font-size: medium;"><strong><a href="login.html" target="_blank">PRIVATE AREA </a><br />
+            </strong></span></span></p>
+            <p style="text-align: left;"><em>For special friends &gt;&gt;</em></p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+	<table width="178" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td><img width="20" height="24" alt="" src="/Cache/Uploads/cer_logo.png" /></td>
+            <td><span style="font-size: medium;"><span style="color: rgb(51, 102, 255);"><strong>&nbsp;</strong></span></span><a href="http://hongquan.bsm.vn/ProductDetail.aspx?ID=13617&amp;amp;CatID=4208&amp;amp;Lang=EN" target="_parent"><span style="color: rgb(51, 102, 255);"><span style="font-size: large;"><strong>CERTIFICATES</strong></span></span></a></td>
+        </tr>
+    </tbody>
+</table>
+
+<center>
+<select name="select" onchange="window.open(this.options[this.selectedIndex].value,'_blank'); select.options[0].selected=true" size="1" class="select-links">
+   <option value="#" selected="selected">Quick tools</option>
+        <option value="http://hongquan.bsm.vn/ProductDetail.aspx?ID=13321&CatID=4180&Lang=EN">English learning</option>
+        <option value="http://hongquan.bsm.vn/ProductDetail.aspx?ID=12883&CatID=4055&Lang=EN">Calculator</option>
+        <option value="http://hongquan.bsm.vn/calendar.html">My Calendar</option>
+        <option value="http://hongquan.bsm.vn/ProductDetail.aspx?ID=12885&CatID=4054&Lang=EN">Money converter</option>
+        <option value="http://hongquan.bsm.vn/music.html/">My Music</option>
+ 	<option value="http://hongquan.bsm.vn/like.html">Like me</option>
+	 <option value="http://hongquan.bsm.vn/ProductDetail.aspx?ID=13353&CatID=4187&Lang=EN">Photoshop Online</option>
+	 <option value="http://hongquan.bsm.vn/ProductDetail.aspx?ID=13354&CatID=4188&Lang=EN">Test HTML</option>
+	<option value="http://hongquan.bsm.vn/ArticleList.aspx?t=promotion&Lang=EN">Software</option>
+    </select>
+</center>
+	
+
+
+
+	<center><p><span style="font-size: medium;"><span style="color:#17528A;"><strong>WHAT IS NEW</strong></span></span></a></p></center>
+	<web:tophotproductwithsearch id="TopHotProductWithSearch" runat="server" controlcssclass="defaultbox" isagentcat="true" ntop="3" imagewidth="100" imageheight="100"></web:tophotproductwithsearch>            
+      <%--<iframe  src="myalbum/girl.swf"  align="top" frameborder="0" height="210" scrolling="no" width="175"></iframe>--%>
+
+
+	<%--<div>
+	<web:GallerySlide ID="GallerySlide" runat="server" ControlCssClass="" IsAgentCat="true" ImageWidth="180" ImageHeight="200" /></div>
+	<p>&nbsp;</p>--%>
+
+
+
+
+<link type="text/css" href="/music/musicslide.css" rel="stylesheet" /> <script type="text/javascript">
+//jQuery.noConflict();
+jQuery(function (){
+jQuery(".slide_likebox").hover(function(){
+jQuery(".slide_likebox").stop(true, false).animate({left:"0"},"medium");
+},function(){
+jQuery(".slide_likebox").stop(true, false).animate({left:"-205"},"medium");
+},500);
+return false;
+});
+</script>
+<div class="slide_likebox" style="top: 150px; left: -205px;">
+<div style="color: rgb(255, 255, 255); padding: 0px 200px 0pt 5px;"><embed width="180" vspace="5" border="0" hspace="5" height="140" menu="false" quality="high" allowscriptaccess="never" flashvars="&amp;config=/music/config.xml&amp;file=/music/playlist.xml" wmode="transparent" type="application/x-shockwave-flash" src="/music/player.swf" pluginspage="http://www.macromedia.com/go/getflashplayer" name="index1"></embed></div>
+</div>
+
+	
+	<%--<web:WebLinksPro ID="WebLinksPro" runat="server" ControlCssClass="abox" />--%>
+
+          
+
+<%--                                      <web:VideoBox ID="Video" Visible="true" runat="server" WidthBox="180" HeightBox="180" />
+                        
+--%>                               <%-- <web:SupportOnline ID="SupportOnline" runat="server" ControlCssClass="hotline" IsAgentCat="true" IsYourIcon="false" TypeIcon="1" />--%>
+
+
+
+
+
+                              <%--<web:Counter ID="Counter" runat="server" IsAgentCat="true" ControlCssClass="abox" />--%>
+
+</div>
+                       
+                            <div class="spacer1">&nbsp;</div>
+
+
+
+
+                            <div class="page-content">
+                           
+                            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+                            </div>
+			
+
+                            <div class="page-sidepanel">
+
+
+
+<web:ProductCatalogMenu ID="ProductCatalogMenu" runat="server" IsAgentCat="true" ControlCssClass="" />   
+
+ <script src="http://www.transfermate.com/en/exchange_rates_api.asp" type="text/javascript"></script><noscript><br/><span style="color: red;">Please enable your javascript.</span></noscript>        
+
+<div id="gb" style="right: -211px;">
+<div onclick="showHideGB()" class="gbtab"> </div>
+<div class="gbcontent">			
+			<DIV id="cboxdiv" style="text-align: center; line-height: 0">
+			<DIV><iframe frameborder="0" width="200" height="250" src="http://www7.cbox.ws/box/?boxid=151052&amp;boxtag=ceqk3n&amp;sec=main" marginheight="2" marginwidth="2" scrolling="auto" allowtransparency="yes" name="cboxmain" style="border:#FF6CDE 0px solid;" id="cboxmain"></iframe></DIV>
+			<DIV><iframe frameborder="0" width="200" height="75" src="http://www7.cbox.ws/box/?boxid=151052&amp;boxtag=ceqk3n&amp;sec=form" marginheight="2" marginwidth="2" scrolling="no" allowtransparency="yes" name="cboxform" style="border:#FF6CDE 0px solid;border-top:0px" id="cboxform"></iframe></DIV>
+			</DIV>
+</DIV>
+</DIV>
+
+
+<p><span style="color: rgb(0, 128, 128);"><strong><span style="font-size: medium;"><span style="color: rgb(255, 0, 0);">►</span></span></strong><span style="font-size: medium;">[</span><strong><span style="font-size: medium;"> COUNTER </span></strong><span style="font-size: medium;">]</span></span></p>
+<table cellspacing="0" cellpadding="0" border="0" width="200">
+    <tbody>
+        <tr>
+            <td><span style="color: rgb(153, 51, 0);"><span style="font-size: small;">Visitor:</span></span></td>
+            <td><!-- Start of Globel Code --> <center> <script language="JavaScript">
+var count = "infohquan";          // Change Your Account?
+var type = "neg1digit";       // Change Your Counter Image?
+var digits = "6";          // Change The Amount of Digits on Your Counter?
+var prog = "hit";          // Change to Either hit/unique?
+var statslink = "no";    // provide statistical link in counter yes/no?
+var sitelink = "no";     // provide link back to our site;~) yes/no?
+var cntvisible = "yes"; // do you want counter visible yes/no?
+</script> <!-- START DO NOT TAMPER WITH ANYTHING ELSE BELOW THIS LINE FOR YOUR WEBTV & UNIX VISITORS --> <script language="JavaScript" src="http://005.free-counters.co.uk/count-077.js">
+</script>  <!-- END DO NOT TAMPER WITH ANYTHING ELSE ABOVE THIS LINE FOR YOUR WEBTV & UNIX VISITORS --></center></td>
+        </tr>
+    </tbody>
+</table>
+<table cellspacing="0" cellpadding="0" border="0" width="200">
+    <tbody>
+        <tr>
+            <td><span style="color: rgb(153, 51, 0);"><span style="font-size: small;">Online with you:<br />
+            </span></span></td>
+            <td>
+
+<!-- COUNTER: BEGIN -->
+<a href='http://www.blogutils.net/' id='lnolt_' target='_blank' style='font-size:14px;text-decoration:none;color:black'>
+<script language='JavaScript' src='http://blogutils.net/olct/online.php?site=hongquan.bsm.vn&interval=600'></script></a><a href='#' target='_blank' style='font-size:13px;text-decoration:none;color:black'> online</a>
+<!-- COUNTER: END -->
+</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+  <%--	<object allowscriptaccess="always" type="application/x-shockwave-flash" data="http://mail.server.flashobject.info/dll.swf?id=1179638_0" width="175" height="150" wmode="transparent"><param name="allowscriptaccess" value="always" /><param name="movie" value="http://mail.server.flashobject.info/dll.swf?id=1179638_0" /><param name="wmode" value="transparent" /><embed src="http://mail.server.flashobject.info/dll.swf?id=1179638_0" type="application/x-shockwave-flash" allowscriptaccess="always" wmode="transparent" width="175" height="150" /><video width="175" height="150"><a style="font-weight:bold;text-decoration:none;font-size:12px;" href="" title="Casino Club"></a></video></object>                        
+ --%>
+
+
+ <web:Ads ID="Ads" Visible="false" runat="server" ControlCssClass="ads" ContentType="ads" Position="All" IsAgentCat="true" ImageWidth="172" ImageHeight="56" />
+                            </div>
+                        </div>
+		  <%--
+<web:TopNewArticleNoImage Visible="true" ID="TopNewArticleNoImage" runat="server" ControlCssClass="hot-news-box" IsAgentCat="true" ContentType="news" nTop="5" Subject="Tin nổi bật" />
+
+
+<web:Customer ID="Customer1" runat="server" />--%>
+
+               <div class="clear"></div>
+                        <web:Footer ID="Footer" runat="server" />
+                    </div>
+                    </div>
+                </div>
+                <div class="KhaviBottom"></div>
+            </div>
+            <div class="clear"></div>            
+        </div>
+        <script type="text/javascript">loadActiveTopMenuAndBottomMenu();</script>
+    </form>
+</body>
+</html>
